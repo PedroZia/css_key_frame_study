@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content=":has() parent selector com animações — estilizar elementos baseado em filhos. Chrome 105+.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>Aba 17: :has() — CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nav.css">
+  <style>
+    /* Form validation com :has() */
+    .has-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+    .has-field {
+      position: relative;
+    }
+    .has-field input {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 0.9rem;
+      font-family: var(--font-sans);
+      outline: none;
+      transition: border-color 250ms ease, box-shadow 250ms ease;
+    }
+    .has-field input:focus { border-color: var(--accent); }
+    .has-field:has(input:invalid:not(:placeholder-shown)) {
+      animation: hasShake 400ms ease;
+    }
+    .has-field:has(input:invalid:not(:placeholder-shown)) input {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px rgba(160, 64, 64, .25);
+    }
+    .has-field:has(input:valid:not(:placeholder-shown)) input {
+      border-color: var(--accent-3);
+      box-shadow: 0 0 0 3px rgba(255, 255, 255, .15);
+    }
+    @keyframes hasShake {
+      0%, 100% { transform: translateX(0); }
+      20%, 60% { transform: translateX(-6px); }
+      40%, 80% { transform: translateX(6px); }
+    }
+    .has-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+    .has-field:has(input:invalid:not(:placeholder-shown)) .has-hint {
+      color: var(--danger);
+    }
+    .has-field:has(input:valid:not(:placeholder-shown)) .has-hint {
+      color: var(--accent-3);
+    }
+
+    /* Card com :has() e hover */
+    .has-card-wrap {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      width: 100%;
+    }
+    .has-card {
+      padding: 16px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      transition: border-color 300ms ease, transform 300ms ease, background 300ms ease;
+    }
+    .has-card:has(input:checked) {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, .08);
+      transform: scale(1.02);
+    }
+    .has-card label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .has-card .card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 300ms ease, transform 300ms ease;
+    }
+    .has-card:has(input:checked) .card-icon {
+      background: var(--accent);
+      transform: rotate(360deg);
+    }
+
+    /* :has() com imagem quebrada */
+    .has-img {
+      width: 80px;
+      height: 80px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      transition: border-color 200ms ease;
+    }
+    .has-img-wrap:has(img) .has-img {
+      border-color: var(--accent-3);
+    }
+    .has-img-wrap:has(img) .has-img::after {
+      content: '✓';
+      color: var(--accent-3);
+    }
+
+    /* Section com :has() para destacar */
+    .has-section {
+      padding: 16px;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 2px solid var(--border);
+      transition: border-color 300ms ease, background 300ms ease;
+    }
+    .has-section:has(input:focus) {
+      border-color: var(--accent);
+      background: rgba(255, 255, 255, .05);
+    }
+    .has-section input {
+      width: 100%;
+      padding: 10px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-size: 0.85rem;
+      font-family: var(--font-sans);
+      outline: none;
+    }
+
+    /* :has() com hover em child */
+    .has-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      width: 100%;
+    }
+    .has-cell {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-sm);
+      transition: background 250ms ease, transform 250ms ease;
+    }
+    .has-grid:has(.has-cell:hover) .has-cell {
+      opacity: 0.4;
+    }
+    .has-grid:has(.has-cell:hover) .has-cell:hover {
+      opacity: 1;
+      background: var(--accent);
+      transform: scale(1.1);
+    }
+
+    /* Counter :has() */
+    .has-counter {
+      --count: 0;
+      counter-reset: c var(--count);
+      padding: 16px;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .has-counter::after {
+      content: counter(c) ' item(s) selected';
+      color: var(--accent);
+    }
+    .has-counter:has(input:checked:nth-of-type(1)) { --count: 1; }
+    .has-counter:has(input:checked:nth-of-type(2)) { --count: 2; }
+    .has-counter:has(input:checked:nth-of-type(3)) { --count: 3; }
+    .has-counter:has(input:checked:nth-of-type(4)) { --count: 4; }
+    @property --count {
+      syntax: '<integer>';
+      initial-value: 0;
+      inherits: true;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="../index.html" class="page-nav-brand">⚡ CSS Animation Lab</a>
+    <a href="16-color-mix.html" class="page-nav-link page-nav-prev">← 16: color-mix</a>
+    <a href="18-linear-easing.html" class="page-nav-link page-nav-next">18: linear() →</a>
+  </nav>
+
+  <main class="content">
+
+    <section class="tab-panel" style="display: block;">
+      <h2>Aba 17: :has() — Parent Selectors Animados</h2>
+      <p class="description"><code>:has()</code> permite selecionar um elemento baseado em seus filhos. Combinar com <code>@property</code> e transitions permite criar UIs reativas sem JavaScript. <strong>Chrome 105+</strong></p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Form Validation Shake</h3>
+          <div class="demo-area">
+            <form class="has-form" onsubmit="event.preventDefault()">
+              <div class="has-field">
+                <input type="email" required placeholder="seu@email.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                <div class="has-hint">Email válido</div>
+              </div>
+            </form>
+          </div>
+          <pre><code>.field:has(input:invalid:not(:placeholder-shown)) {
+  animation: shake 400ms ease;
+}
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Card Checkbox Selecionado</h3>
+          <div class="demo-area">
+            <div class="has-card-wrap">
+              <div class="has-card">
+                <label>
+                  <input type="checkbox" class="sr-only">
+                  <span class="card-icon">A</span>
+                  <span>Opção A</span>
+                </label>
+              </div>
+              <div class="has-card">
+                <label>
+                  <input type="checkbox" class="sr-only">
+                  <span class="card-icon">B</span>
+                  <span>Opção B</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <pre><code>.card {
+  border: 2px solid var(--border);
+  transition: border-color 300ms,
+              transform 300ms;
+}
+.card:has(input:checked) {
+  border-color: var(--accent);
+  transform: scale(1.02);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Grid: Destacar Item Hovered</h3>
+          <div class="demo-area">
+            <div class="has-grid">
+              <div class="has-cell"></div>
+              <div class="has-cell"></div>
+              <div class="has-cell"></div>
+              <div class="has-cell"></div>
+              <div class="has-cell"></div>
+              <div class="has-cell"></div>
+              <div class="has-cell"></div>
+              <div class="has-cell"></div>
+              <div class="has-cell"></div>
+            </div>
+          </div>
+          <pre><code>/* Hover em qualquer filho afeta
+   todos os outros */
+.grid:has(.cell:hover) .cell {
+  opacity: 0.4;
+  transition: opacity 250ms;
+}
+.grid:has(.cell:hover) .cell:hover {
+  opacity: 1;
+  background: var(--accent);
+  transform: scale(1.1);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Section Focada</h3>
+          <div class="demo-area">
+            <div class="has-section">
+              <input type="text" placeholder="Clique aqui para focar...">
+            </div>
+          </div>
+          <pre><code>.section {
+  border: 2px solid var(--border);
+  transition: border-color 300ms,
+              background 300ms;
+}
+.section:has(input:focus) {
+  border-color: var(--accent);
+  background: rgba(255, 255, 255, .05);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Counter via :has()</h3>
+          <div class="demo-area">
+            <div class="has-counter">
+              <input type="checkbox" class="sr-only">
+              <input type="checkbox" class="sr-only">
+              <input type="checkbox" class="sr-only">
+              <input type="checkbox" class="sr-only">
+            </div>
+            <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; width: 100%; margin-top: 8px;">
+              <label class="ss-trigger" style="font-size: 0.75rem; padding: 6px 10px; cursor: pointer;">+1</label>
+              <label class="ss-trigger" style="font-size: 0.75rem; padding: 6px 10px; cursor: pointer;">+1</label>
+              <label class="ss-trigger" style="font-size: 0.75rem; padding: 6px 10px; cursor: pointer;">+1</label>
+              <label class="ss-trigger" style="font-size: 0.75rem; padding: 6px 10px; cursor: pointer;">+1</label>
+            </div>
+          </div>
+          <pre><code>@property --count {
+  syntax: '&lt;integer&gt;';
+  initial-value: 0;
+  inherits: true;
+}
+.counter {
+  --count: 0;
+  counter-reset: c var(--count);
+}
+.counter:has(input:checked:nth-of-type(1)) { --count: 1; }
+.counter:has(input:checked:nth-of-type(2)) { --count: 2; }
+/* etc */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Suporte e Limitações</h3>
+          <p style="padding: 16px 20px; font-size: 0.85rem; color: var(--text-secondary);">
+            <strong style="color: var(--accent);">Suporte:</strong> Chrome 105+, Safari 15.4+, Firefox 121+ (set/2023), Edge 105+<br><br>
+            <strong style="color: var(--danger);">Limitações:</strong>
+          </p>
+          <pre><code>/* Não funciona com :has() aninhado
+   profundo em alguns browsers */
+.parent:has(.child:has(.grandchild)) /* ⚠️ */
+
+/* Não pode usar em pseudo-elements
+   como ::before, ::after */
+.elem::before:has(...) /* ❌ */
+
+/* Performance: pode ser custoso
+   em selectors complexos em
+   árvores grandes */</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Aba 17 de 22 — CSS Animation Study Lab</p>
+    <p class="footer-hint"><a href="../index.html" style="color: var(--accent);">← Voltar ao índice</a></p>
+  </footer>
+
+</body>
+</html>

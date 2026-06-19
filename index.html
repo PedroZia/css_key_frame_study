@@ -1,0 +1,1601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="12 abas interativas com exemplos práticos de animações CSS: transitions, keyframes, transforms, hover effects, loading, scroll-driven, easing, stagger e mais. Zero JavaScript.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <h1>CSS Animation Study Lab</h1>
+    <p class="subtitle">12 abas com todos os tipos de animações CSS — zero JavaScript</p>
+  </header>
+
+  <!-- Tabs State (radio buttons) -->
+  <input type="radio" name="tab" id="tab1" checked>
+  <input type="radio" name="tab" id="tab2">
+  <input type="radio" name="tab" id="tab3">
+  <input type="radio" name="tab" id="tab4">
+  <input type="radio" name="tab" id="tab5">
+  <input type="radio" name="tab" id="tab6">
+  <input type="radio" name="tab" id="tab7">
+  <input type="radio" name="tab" id="tab8">
+  <input type="radio" name="tab" id="tab9">
+  <input type="radio" name="tab" id="tab10">
+  <input type="radio" name="tab" id="tab11">
+  <input type="radio" name="tab" id="tab12">
+  <input type="radio" name="tab" id="tab13">
+
+  <nav class="tabs" role="tablist">
+    <label for="tab1" role="tab" aria-controls="panel1">Transições</label>
+    <label for="tab2" role="tab" aria-controls="panel2">Keyframes</label>
+    <label for="tab3" role="tab" aria-controls="panel3">Transform 2D</label>
+    <label for="tab4" role="tab" aria-controls="panel4">Transform 3D</label>
+    <label for="tab5" role="tab" aria-controls="panel5">Hover Effects</label>
+    <label for="tab6" role="tab" aria-controls="panel6">Loading</label>
+    <label for="tab7" role="tab" aria-controls="panel7">Micro-interações</label>
+    <label for="tab8" role="tab" aria-controls="panel8">Scroll CSS</label>
+    <label for="tab9" role="tab" aria-controls="panel9">Easing</label>
+    <label for="tab10" role="tab" aria-controls="panel10">Stagger</label>
+    <label for="tab11" role="tab" aria-controls="panel11">Page Transitions</label>
+    <label for="tab12" role="tab" aria-controls="panel12">Avançado</label>
+    <label for="tab13" role="tab" aria-controls="panel13">Técnicas Modernas →</label>
+  </nav>
+
+  <main class="content">
+
+    <!-- ==================== TAB 1: Transições ==================== -->
+    <section class="tab-panel panel-1" role="tabpanel" id="panel1" aria-labelledby="tab1">
+      <h2>Transições Básicas</h2>
+      <p class="description">Propriedade <code>transition</code> — animação entre dois estados (hover, focus, class toggle).</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Transition Property</h3>
+          <div class="demo-area">
+            <div class="box transition-property">Hover me</div>
+          </div>
+          <pre><code>.transition-property {
+  transition-property: transform;
+  transition-duration: 300ms;
+}
+.transition-property:hover {
+  transform: scale(1.1);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Transition Duration</h3>
+          <div class="demo-area">
+            <div class="box duration-fast">100ms</div>
+            <div class="box duration-medium">300ms</div>
+            <div class="box duration-slow">600ms</div>
+          </div>
+          <pre><code>.duration-fast   { transition-duration: 100ms; }
+.duration-medium { transition-duration: 300ms; }
+.duration-slow   { transition-duration: 600ms; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Transition Timing</h3>
+          <div class="demo-area">
+            <div class="box timing-ease">ease</div>
+            <div class="box timing-linear">linear</div>
+            <div class="box timing-ease-in">ease-in</div>
+            <div class="box timing-ease-out">ease-out</div>
+            <div class="box timing-ease-in-out">ease-in-out</div>
+            <div class="box timing-cubic">cubic-bezier</div>
+          </div>
+          <pre><code>.ease        { transition-timing-function: ease; }
+.linear      { transition-timing-function: linear; }
+.ease-in     { transition-timing-function: ease-in; }
+.ease-out    { transition-timing-function: ease-out; }
+.ease-in-out { transition-timing-function: ease-in-out; }
+.cubic       { transition-timing-function: cubic-bezier(.68,-.55,.27,1.55); }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Transition Delay</h3>
+          <div class="demo-area">
+            <div class="box delay-0">0ms delay</div>
+            <div class="box delay-200">200ms delay</div>
+            <div class="box delay-500">500ms delay</div>
+          </div>
+          <pre><code>.delay-0   { transition-delay: 0ms; }
+.delay-200 { transition-delay: 200ms; }
+.delay-500 { transition-delay: 500ms; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Multiple Properties</h3>
+          <div class="demo-area">
+            <div class="box multi-transition">Hover me</div>
+          </div>
+          <pre><code>.box {
+  transition: transform 300ms ease,
+              background-color 500ms ease,
+              box-shadow 300ms ease;
+}
+.box:hover {
+  transform: translateY(-8px);
+  background-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(0,212,255,.3);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Shorthand</h3>
+          <div class="demo-area">
+            <div class="box shorthand-transition">Hover me</div>
+          </div>
+          <pre><code>.box {
+  transition: all 300ms ease-in-out;
+  /* ou especifico: */
+  transition: transform 200ms ease 50ms;
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: Keyframes ==================== -->
+    <section class="tab-panel panel-2" role="tabpanel" id="panel2" aria-labelledby="tab2">
+      <h2>Keyframe Animations</h2>
+      <p class="description">Propriedade <code>animation</code> com <code>@keyframes</code> — sequências multi-etapa.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Fade In/Out</h3>
+          <div class="demo-area">
+            <div class="box anim-fade">Fade</div>
+          </div>
+          <pre><code>@keyframes fade {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
+}
+.box {
+  animation: fade 1s ease-in-out infinite alternate;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Bounce</h3>
+          <div class="demo-area">
+            <div class="box anim-bounce">Bounce</div>
+          </div>
+          <pre><code>@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-20px); }
+}
+.box {
+  animation: bounce 600ms ease-in-out infinite;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Spin</h3>
+          <div class="demo-area">
+            <div class="box anim-spin">Spin</div>
+          </div>
+          <pre><code>@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.box {
+  animation: spin 1s linear infinite;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Pulse</h3>
+          <div class="demo-area">
+            <div class="box anim-pulse">Pulse</div>
+          </div>
+          <pre><code>@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%      { transform: scale(1.05); opacity: .8; }
+}
+.box {
+  animation: pulse 2s ease-in-out infinite;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Slide In</h3>
+          <div class="demo-area">
+            <div class="box anim-slide-in">Slide In</div>
+          </div>
+          <pre><code>@keyframes slideIn {
+  from { transform: translateX(-100%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+.box {
+  animation: slideIn 500ms ease-out forwards;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Keyframe Steps</h3>
+          <div class="demo-area">
+            <div class="box anim-steps">Steps</div>
+          </div>
+          <pre><code>@keyframes typewriter {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+.box {
+  animation: typewriter 2s steps(10) forwards;
+  overflow: hidden;
+  white-space: nowrap;
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: Transform 2D ==================== -->
+    <section class="tab-panel panel-3" role="tabpanel" id="panel3" aria-labelledby="tab3">
+      <h2>Transformações 2D</h2>
+      <p class="description">Propriedade <code>transform</code> — translate, rotate, scale, skew, matrix.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Translate</h3>
+          <div class="demo-area">
+            <div class="box tf-translate-x">translateX(40px)</div>
+            <div class="box tf-translate-y">translateY(20px)</div>
+          </div>
+          <pre><code>.tf-translate-x { transform: translateX(40px); }
+.tf-translate-y { transform: translateY(20px); }
+/* Percentual relativo ao próprio tamanho */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Rotate</h3>
+          <div class="demo-area">
+            <div class="box tf-rotate-45">rotate(45deg)</div>
+            <div class="box tf-rotate-neg">rotate(-45deg)</div>
+          </div>
+          <pre><code>.tf-rotate-45 { transform: rotate(45deg); }
+.tf-rotate-neg { transform: rotate(-45deg); }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Scale</h3>
+          <div class="demo-area">
+            <div class="box tf-scale-up">scale(1.3)</div>
+            <div class="box tf-scale-down">scale(0.7)</div>
+            <div class="box tf-scale-xy">scale(1.2, 0.8)</div>
+          </div>
+          <pre><code>.tf-scale-up   { transform: scale(1.3); }
+.tf-scale-down { transform: scale(0.7); }
+.tf-scale-xy   { transform: scale(1.2, 0.8); }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Skew</h3>
+          <div class="demo-area">
+            <div class="box tf-skew-x">skewX(15deg)</div>
+            <div class="box tf-skew-y">skewY(10deg)</div>
+          </div>
+          <pre><code>.tf-skew-x { transform: skewX(15deg); }
+.tf-skew-y { transform: skewY(10deg); }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Transform Origin</h3>
+          <div class="demo-area">
+            <div class="box tf-origin-center">center</div>
+            <div class="box tf-origin-tl">top left</div>
+            <div class="box tf-origin-br">bottom right</div>
+          </div>
+          <pre><code>.tf-origin-center { transform-origin: center; }
+.tf-origin-tl     { transform-origin: top left; }
+.tf-origin-br     { transform-origin: bottom right; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Combinando Transforms</h3>
+          <div class="demo-area">
+            <div class="box tf-combined">Combined</div>
+          </div>
+          <pre><code>.tf-combined {
+  transform: rotate(15deg) scale(1.1) translateX(20px);
+  /* Ordem importa! Da direita pra esquerda */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Matrix</h3>
+          <div class="demo-area">
+            <div class="box tf-matrix">matrix()</div>
+          </div>
+          <pre><code>/* matrix(scaleX, skewY, skewX, scaleY, translateX, translateY) */
+.tf-matrix {
+  transform: matrix(1, 0.2, -0.2, 1, 10, 0);
+  /* Equivalente a: skewY(11.3deg) translateX(10px) */
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: Transform 3D ==================== -->
+    <section class="tab-panel panel-4" role="tabpanel" id="panel4" aria-labelledby="tab4">
+      <h2>Transformações 3D</h2>
+      <p class="description">Perspectiva, rotateX/Y/Z, translateZ, preserve-3d.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Perspective</h3>
+          <div class="demo-area perspective-container">
+            <div class="box tf-perspective">Perspective</div>
+          </div>
+          <pre><code>.container {
+  perspective: 800px;
+}
+.box {
+  transform: rotateY(30deg);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>RotateX / RotateY</h3>
+          <div class="demo-area perspective-container">
+            <div class="box tf-rotate-x">rotateX(30deg)</div>
+            <div class="box tf-rotate-y">rotateY(30deg)</div>
+          </div>
+          <pre><code>.rx { transform: rotateX(30deg); }
+.ry { transform: rotateY(30deg); }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>RotateZ</h3>
+          <div class="demo-area perspective-container">
+            <div class="box tf-rotate-z">rotateZ(20deg)</div>
+          </div>
+          <pre><code>.rz { transform: rotateZ(20deg); }
+/* Igual a rotate() no 2D */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>TranslateZ</h3>
+          <div class="demo-area perspective-container">
+            <div class="box tf-translate-z-front">translateZ(60px)</div>
+            <div class="box tf-translate-z-back">translateZ(-60px)</div>
+          </div>
+          <pre><code>.front { transform: translateZ(60px); }
+.back  { transform: translateZ(-60px); }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Card Flip</h3>
+          <div class="demo-area perspective-container">
+            <div class="card-flip">
+              <div class="card-flip-inner">
+                <div class="card-front">Front</div>
+                <div class="card-back">Back</div>
+              </div>
+            </div>
+          </div>
+          <pre><code>.card-inner {
+  transform-style: preserve-3d;
+  transition: transform 600ms;
+}
+.card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+.card-front  { backface-visibility: hidden; }
+.card-back   { transform: rotateY(180deg);
+               backface-visibility: hidden; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>preserve-3d</h3>
+          <div class="demo-area perspective-container">
+            <div class="box tf-preserve-3d">
+              <span>A</span>
+              <span>B</span>
+              <span>C</span>
+            </div>
+          </div>
+          <pre><code>.parent {
+  transform-style: preserve-3d;
+  /* Filhos mantêm contexto 3D */</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 5: Hover Effects ==================== -->
+    <section class="tab-panel panel-5" role="tabpanel" id="panel5" aria-labelledby="tab5">
+      <h2>Hover Effects</h2>
+      <p class="description">Efeitos visuais ao passar o mouse — cards, botões, overlays.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Glow Effect</h3>
+          <div class="demo-area">
+            <div class="box hover-glow">Glow</div>
+          </div>
+          <pre><code>.box {
+  box-shadow: 0 0 0 rgba(0,212,255,0);
+  transition: box-shadow 300ms;
+}
+.box:hover {
+  box-shadow: 0 0 30px rgba(0,212,255,.6);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Border Draw</h3>
+          <div class="demo-area">
+            <div class="box hover-border">Draw Border</div>
+          </div>
+          <pre><code>.box {
+  border: 2px solid transparent;
+  background: linear-gradient(#1a1a2e, #1a1a2e) padding-box,
+              linear-gradient(135deg, #00d4ff, #7b2ff7) border-box;
+  opacity: 0;
+  transition: opacity 300ms;
+}
+.box:hover { opacity: 1; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Magnetic Shift</h3>
+          <div class="demo-area">
+            <div class="box hover-shift">Shift</div>
+          </div>
+          <pre><code>.box {
+  transition: transform 200ms ease-out;
+}
+.box:hover {
+  transform: translate(-4px, -4px);
+}
+.box:active {
+  transform: translate(0, 0);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Image Reveal</h3>
+          <div class="demo-area">
+            <div class="hover-reveal">
+              <div class="reveal-overlay">Hover to reveal</div>
+            </div>
+          </div>
+          <pre><code>.overlay {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 500ms ease;
+}
+.card:hover .overlay {
+  clip-path: inset(50% 50% 50% 50%);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Text Slide</h3>
+          <div class="demo-area">
+            <div class="hover-text-slide">
+              <span class="slide-default">Hover me</span>
+              <span class="slide-active">Revealed!</span>
+            </div>
+          </div>
+          <pre><code>.default, .active {
+  transition: transform 300ms ease;
+}
+.active { transform: translateY(100%); }
+.card:hover .default { transform: translateY(-100%); }
+.card:hover .active  { transform: translateY(0); }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Ripple Click</h3>
+          <div class="demo-area">
+            <div class="hover-ripple">Click me</div>
+          </div>
+          <pre><code>.box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.3) 0%, transparent 70%);
+  transform: scale(0);
+  transition: transform 500ms;
+}
+.box:active::after {
+  transform: scale(2);
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: Loading ==================== -->
+    <section class="tab-panel panel-6" role="tabpanel" id="panel6" aria-labelledby="tab6">
+      <h2>Loading Animations</h2>
+      <p class="description">Spinners, progress bars, skeleton screens — tudo em CSS puro.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Spinner Circle</h3>
+          <div class="demo-area">
+            <div class="spinner-circle"></div>
+          </div>
+          <pre><code>.spinner {
+  width: 40px; height: 40px;
+  border: 3px solid rgba(255,255,255,.1);
+  border-top-color: #00d4ff;
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Dots Bounce</h3>
+          <div class="demo-area">
+            <div class="spinner-dots">
+              <span></span><span></span><span></span>
+            </div>
+          </div>
+          <pre><code>.dots span {
+  animation: dotBounce 1.4s ease-in-out infinite;
+}
+.dots span:nth-child(2) { animation-delay: 160ms; }
+.dots span:nth-child(3) { animation-delay: 320ms; }
+
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: scale(0.6); opacity: .4; }
+  40%           { transform: scale(1); opacity: 1; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Progress Bar</h3>
+          <div class="demo-area">
+            <div class="spinner-progress">
+              <div class="progress-fill"></div>
+            </div>
+          </div>
+          <pre><code>.fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #00d4ff, #7b2ff7);
+  animation: progress 2s ease-in-out infinite;
+}
+@keyframes progress {
+  0%   { width: 0%; }
+  50%  { width: 70%; }
+  100% { width: 100%; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Skeleton Shimmer</h3>
+          <div class="demo-area">
+            <div class="skeleton">
+              <div class="skeleton-line w-80"></div>
+              <div class="skeleton-line w-60"></div>
+              <div class="skeleton-line w-90"></div>
+            </div>
+          </div>
+          <pre><code>.skeleton {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,.06) 25%,
+    rgba(255,255,255,.12) 50%,
+    rgba(255,255,255,.06) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Orbital</h3>
+          <div class="demo-area">
+            <div class="spinner-orbital">
+              <div class="orbital-ring"></div>
+              <div class="orbital-dot"></div>
+            </div>
+          </div>
+          <pre><code>.ring {
+  border: 2px solid rgba(255,255,255,.1);
+  border-radius: 50%;
+}
+.dot {
+  width: 10px; height: 10px;
+  background: #00d4ff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%; left: 50%;
+  margin: -5px 0 0 -5px;
+  animation: orbit 1.2s linear infinite;
+}
+@keyframes orbit {
+  from { transform: rotate(0deg) translateX(20px); }
+  to   { transform: rotate(360deg) translateX(20px); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Wave Bars</h3>
+          <div class="demo-area">
+            <div class="spinner-wave">
+              <span></span><span></span><span></span><span></span><span></span>
+            </div>
+          </div>
+          <pre><code>.wave span {
+  width: 4px;
+  background: #00d4ff;
+  animation: wave 1s ease-in-out infinite;
+}
+.wave span:nth-child(2) { animation-delay: 100ms; }
+.wave span:nth-child(3) { animation-delay: 200ms; }
+/* etc */</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 7: Micro-interações ==================== -->
+    <section class="tab-panel panel-7" role="tabpanel" id="panel7" aria-labelledby="tab7">
+      <h2>Micro-interações</h2>
+      <p class="description">Feedback visual em botões, toggle switches, checkboxes — detalhes que fazem diferença.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Toggle Switch</h3>
+          <div class="demo-area">
+            <label class="toggle-wrapper">
+              <input type="checkbox" class="sr-only toggle-input" aria-label="Toggle switch">
+              <span class="toggle-slider"></span>
+            </label>
+          </div>
+          <pre><code>.slider {
+  transition: background 300ms, transform 300ms;
+}
+.input:checked + .slider {
+  background: #00d4ff;
+  transform: translateX(24px);
+}
+.slider::before {
+  content: '';
+  transition: transform 300ms cubic-bezier(.68,-.55,.27,1.55);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Button Ripple</h3>
+          <div class="demo-area">
+            <button class="btn-ripple">Clique Aqui</button>
+          </div>
+          <pre><code>.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,255,255,.3), transparent 70%);
+  transform: scale(0);
+  opacity: 0;
+  transition: transform 500ms, opacity 500ms;
+}
+.btn:active::after {
+  transform: scale(2.5);
+  opacity: 1;
+  transition: 0ms;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Focus Ring</h3>
+          <div class="demo-area">
+            <button class="btn-focus">Focus me (Tab)</button>
+          </div>
+          <pre><code>.btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0,212,255,.5);
+}
+/* Usa :focus-visible pra não aparecer no click */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Input Underline</h3>
+          <div class="demo-area">
+            <div class="input-underline-wrapper">
+              <input type="text" class="input-underline" placeholder=" ">
+              <label class="input-underline-label">Email</label>
+              <span class="input-underline-bar"></span>
+            </div>
+          </div>
+          <pre><code>.bar {
+  transform: scaleX(0);
+  transition: transform 300ms;
+}
+.input:focus ~ .bar {
+  transform: scaleX(1);
+}
+.label {
+  transition: all 300ms;
+}
+.input:focus ~ .label,
+.input:not(:placeholder-shown) ~ .label {
+  transform: translateY(-24px) scale(.8);
+  color: #00d4ff;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Like Button</h3>
+          <div class="demo-area">
+            <label class="like-wrapper">
+              <input type="checkbox" class="sr-only like-input" aria-label="Like">
+              <span class="like-heart"></span>
+            </label>
+          </div>
+          <pre><code>.heart {
+  transition: transform 300ms cubic-bezier(.17,.89,.32,1.28);
+}
+.input:checked ~ .heart {
+  transform: scale(1.3);
+}
+/* Com keyframes pra efeito de pop */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Notification Badge</h3>
+          <div class="demo-area">
+            <div class="badge-wrapper">
+              <div class="badge-icon">
+                <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+              </div>
+              <span class="badge-count">3</span>
+            </div>
+          </div>
+          <pre><code>.count {
+  animation: badgePop 300ms cubic-bezier(.17,.89,.32,1.28);
+}
+@keyframes badgePop {
+  0%   { transform: scale(0); }
+  60%  { transform: scale(1.4); }
+  100% { transform: scale(1); }
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 8: Scroll CSS ==================== -->
+    <section class="tab-panel panel-8" role="tabpanel" id="panel8" aria-labelledby="tab8">
+      <h2>Scroll-Driven Animations (CSS)</h2>
+      <p class="description">Animações puras de scroll com <code>animation-timeline</code> — sem JavaScript. (Chrome/Edge 115+; fallback automático para Firefox/Safari)</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Scroll Progress Bar</h3>
+          <div class="demo-area scroll-demo-area">
+            <div class="scroll-progress-bar"></div>
+            <div class="scroll-content">
+              <p>Scroll down neste card para ver a barra de progresso.</p>
+              <p>Lorem ipsum dolor sit amet consectetur.</p>
+              <p>Adipiscing elit sed do eiusmod.</p>
+              <p>Tempor incididunt ut labore.</p>
+              <p>Dolore magna aliqua ut enim.</p>
+              <p>Ad minim veniam quis nostrud.</p>
+              <p>Exercitation ullamco laboris.</p>
+              <p>Nisi ut aliquip ex ea commodo.</p>
+            </div>
+          </div>
+          <pre><code>.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  background: #00d4ff;
+  animation: growWidth linear;
+  animation-timeline: scroll();
+}
+@keyframes growWidth {
+  from { width: 0%; }
+  to   { width: 100%; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Reveal on Scroll</h3>
+          <div class="demo-area scroll-demo-area">
+            <div class="scroll-reveal">
+              <div class="reveal-item">Item 1</div>
+              <div class="reveal-item">Item 2</div>
+              <div class="reveal-item">Item 3</div>
+            </div>
+          </div>
+          <pre><code>.reveal {
+  animation: revealUp linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 100%;
+}
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Parallax CSS</h3>
+          <div class="demo-area scroll-demo-area">
+            <div class="scroll-parallax">
+              <div class="parallax-bg"></div>
+              <div class="parallax-content">Parallax Content</div>
+            </div>
+          </div>
+          <pre><code>.bg {
+  animation: parallaxMove linear;
+  animation-timeline: scroll();
+}
+@keyframes parallaxMove {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-50px); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Rotate on Scroll</h3>
+          <div class="demo-area scroll-demo-area">
+            <div class="scroll-rotate">
+              <div class="rotate-element">Rotate</div>
+            </div>
+          </div>
+          <pre><code>.element {
+  animation: spinScroll linear;
+  animation-timeline: scroll();
+}
+@keyframes spinScroll {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Scale on Scroll</h3>
+          <div class="demo-area scroll-demo-area">
+            <div class="scroll-scale">
+              <div class="scale-element">Scale</div>
+            </div>
+          </div>
+          <pre><code>.element {
+  animation: scaleScroll ease-out;
+  animation-timeline: view();
+  animation-range: entry 0% cover 50%;
+}
+@keyframes scaleScroll {
+  from { transform: scale(0.5); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Color Shift on Scroll</h3>
+          <div class="demo-area scroll-demo-area">
+            <div class="scroll-color">
+              <div class="color-element">Color Shift</div>
+            </div>
+          </div>
+          <pre><code>.element {
+  animation: colorShift linear;
+  animation-timeline: scroll();
+}
+@keyframes colorShift {
+  0%   { background: #7b2ff7; }
+  50%  { background: #00d4ff; }
+  100% { background: #00ff88; }
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 9: Easing ==================== -->
+    <section class="tab-panel panel-9" role="tabpanel" id="panel9" aria-labelledby="tab9">
+      <h2>Easing Functions</h2>
+      <p class="description">Curvas de aceleração — <code>cubic-bezier()</code>, <code>steps()</code>, keyword easing.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Keywords</h3>
+          <div class="demo-area">
+            <div class="easing-row">
+              <div class="easing-track"><div class="easing-ball ease-ease">ease</div></div>
+              <div class="easing-track"><div class="easing-ball ease-linear">linear</div></div>
+              <div class="easing-track"><div class="easing-ball ease-ease-in">ease-in</div></div>
+              <div class="easing-track"><div class="easing-ball ease-ease-out">ease-out</div></div>
+              <div class="easing-track"><div class="easing-ball ease-ease-in-out">ease-in-out</div></div>
+            </div>
+          </div>
+          <pre><code>transition-timing-function: ease;       /* default */
+transition-timing-function: linear;
+transition-timing-function: ease-in;
+transition-timing-function: ease-out;
+transition-timing-function: ease-in-out;</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>cubic-bezier</h3>
+          <div class="demo-area">
+            <div class="easing-row">
+              <div class="easing-track"><div class="easing-ball cb-1">.25,.1,.25,1</div></div>
+              <div class="easing-track"><div class="easing-ball cb-2">.68,-.55,.27,1.55</div></div>
+              <div class="easing-track"><div class="easing-ball cb-3">.33,0,.67,1</div></div>
+              <div class="easing-track"><div class="easing-ball cb-4">0,.7,.3,1</div></div>
+            </div>
+          </div>
+          <pre><code>/* Material Design ease */
+cubic-bezier(.25,.1,.25,1)
+/* Overshoot (spring-like) */
+cubic-bezier(.68,-.55,.27,1.55)
+/* Standard easing */
+cubic-bezier(.33,0,.67,1)
+/* Decelerate */
+cubic-bezier(0,.7,.3,1)</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Steps()</h3>
+          <div class="demo-area">
+            <div class="easing-row">
+              <div class="easing-track"><div class="easing-ball steps-3">steps(3)</div></div>
+              <div class="easing-track"><div class="easing-ball steps-5">steps(5)</div></div>
+              <div class="easing-track"><div class="easing-ball steps-10">steps(10)</div></div>
+              <div class="easing-track"><div class="easing-ball steps-jump">jump-end</div></div>
+            </div>
+          </div>
+          <pre><code>animation-timing-function: steps(3);
+animation-timing-function: steps(5);
+animation-timing-function: steps(10);
+animation-timing-function: steps(1, jump-end);
+/* jump-start, jump-both, jump-none */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Visual Curves</h3>
+          <div class="demo-area">
+            <div class="bezier-curves">
+              <svg class="curve-svg" viewBox="0 0 100 100">
+                <path d="M0,100 C25,100 25,0 50,0 S75,100 100,0" fill="none" stroke="var(--accent)" stroke-width="2"/>
+                <line x1="0" y1="0" x2="0" y2="100" stroke="var(--border)" stroke-width="1"/>
+                <line x1="0" y1="100" x2="100" y2="100" stroke="var(--border)" stroke-width="1"/>
+              </svg>
+              <span class="curve-label">Cubic Bezier Visual</span>
+            </div>
+          </div>
+          <pre><code>/* P1=(x1,y1) control point 1
+   P2=(x2,y2) control point 2
+   X axis = time, Y axis = progress
+   Tools: cubic-bezier.com */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Easing Comparison</h3>
+          <div class="demo-area">
+            <button class="btn-easing-demo">Hover me — watch easing</button>
+          </div>
+          <pre><code>/* Spring feel */
+transition: transform 500ms cubic-bezier(.68,-.55,.27,1.55);
+/* Smooth decelerate */
+transition: transform 500ms cubic-bezier(0,.7,.3,1);
+/* Material standard */
+transition: transform 500ms cubic-bezier(.4,0,.2,1);</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Custom Property Easing</h3>
+          <div class="demo-area">
+            <div class="box custom-easing">Custom</div>
+          </div>
+          <pre><code>:root {
+  --ease-spring: cubic-bezier(.68,-.55,.27,1.55);
+  --ease-smooth: cubic-bezier(.4,0,.2,1);
+  --ease-bounce: cubic-bezier(.34,1.56,.64,1);
+}
+.box {
+  transition: transform 400ms var(--ease-spring);
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 10: Stagger ==================== -->
+    <section class="tab-panel panel-10" role="tabpanel" id="panel10" aria-labelledby="tab10">
+      <h2>Stagger Animations</h2>
+      <p class="description">Sequências escalonadas — animar lista de itens com delay progressivo. CSS puro com <code>:nth-child</code>.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Fade In Stagger</h3>
+          <div class="demo-area">
+            <div class="stagger-list stagger-fade">
+              <div class="stagger-item">1</div>
+              <div class="stagger-item">2</div>
+              <div class="stagger-item">3</div>
+              <div class="stagger-item">4</div>
+              <div class="stagger-item">5</div>
+            </div>
+          </div>
+          <pre><code>.item {
+  opacity: 0;
+  animation: fadeIn 400ms ease forwards;
+}
+.item:nth-child(1) { animation-delay: 0ms; }
+.item:nth-child(2) { animation-delay: 80ms; }
+.item:nth-child(3) { animation-delay: 160ms; }
+.item:nth-child(4) { animation-delay: 240ms; }
+.item:nth-child(5) { animation-delay: 320ms; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Slide Up Stagger</h3>
+          <div class="demo-area">
+            <div class="stagger-list stagger-slide-up">
+              <div class="stagger-item">1</div>
+              <div class="stagger-item">2</div>
+              <div class="stagger-item">3</div>
+              <div class="stagger-item">4</div>
+              <div class="stagger-item">5</div>
+            </div>
+          </div>
+          <pre><code>.item {
+  transform: translateY(30px);
+  opacity: 0;
+  animation: slideUp 400ms ease forwards;
+}
+@keyframes slideUp {
+  to { transform: translateY(0); opacity: 1; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Scale Stagger</h3>
+          <div class="demo-area">
+            <div class="stagger-list stagger-scale">
+              <div class="stagger-item">1</div>
+              <div class="stagger-item">2</div>
+              <div class="stagger-item">3</div>
+              <div class="stagger-item">4</div>
+              <div class="stagger-item">5</div>
+            </div>
+          </div>
+          <pre><code>.item {
+  transform: scale(0);
+  animation: popIn 400ms cubic-bezier(.17,.89,.32,1.28) forwards;
+}
+@keyframes popIn {
+  to { transform: scale(1); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Rotate Stagger</h3>
+          <div class="demo-area">
+            <div class="stagger-list stagger-rotate">
+              <div class="stagger-item">1</div>
+              <div class="stagger-item">2</div>
+              <div class="stagger-item">3</div>
+              <div class="stagger-item">4</div>
+              <div class="stagger-item">5</div>
+            </div>
+          </div>
+          <pre><code>.item {
+  transform: rotate(-180deg) scale(0);
+  opacity: 0;
+  animation: rotateIn 500ms ease forwards;
+}
+@keyframes rotateIn {
+  to { transform: rotate(0) scale(1); opacity: 1; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Grid Stagger</h3>
+          <div class="demo-area">
+            <div class="stagger-grid">
+              <div class="stagger-cell"></div>
+              <div class="stagger-cell"></div>
+              <div class="stagger-cell"></div>
+              <div class="stagger-cell"></div>
+              <div class="stagger-cell"></div>
+              <div class="stagger-cell"></div>
+              <div class="stagger-cell"></div>
+              <div class="stagger-cell"></div>
+              <div class="stagger-cell"></div>
+            </div>
+          </div>
+          <pre><code>/* Grid com delay baseado na coluna + linha */
+.cell:nth-child(3n+1) { animation-delay: calc(var(--i) * 80ms); }
+.cell:nth-child(3n+2) { animation-delay: calc(var(--i) * 80ms + 40ms); }
+.cell:nth-child(3n)   { animation-delay: calc(var(--i) * 80ms + 80ms); }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Hover Cascade</h3>
+          <div class="demo-area">
+            <div class="stagger-cascade">
+              <div class="cascade-item"></div>
+              <div class="cascade-item"></div>
+              <div class="cascade-item"></div>
+              <div class="cascade-item"></div>
+              <div class="cascade-item"></div>
+            </div>
+          </div>
+          <pre><code>.parent:hover .item {
+  transform: translateY(-10px);
+  transition-delay: calc(var(--i) * 50ms);
+}
+/* Hover no container, delay progressivo */</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 11: Page Transitions ==================== -->
+    <section class="tab-panel panel-11" role="tabpanel" id="panel11" aria-labelledby="tab11">
+      <h2>Page Transitions</h2>
+      <p class="description">Simulando transições entre "páginas" com CSS puro — radio button hack + animation.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Crossfade</h3>
+          <div class="demo-area">
+            <div class="page-transition-demo">
+              <input type="radio" name="pt1" id="pt1a" checked class="sr-only pt-radio">
+              <input type="radio" name="pt1" id="pt1b" class="sr-only pt-radio">
+              <div class="pt-pages">
+                <div class="pt-page pt-page-1">
+                  <span>Página 1</span>
+                </div>
+                <div class="pt-page pt-page-2">
+                  <span>Página 2</span>
+                </div>
+              </div>
+              <div class="pt-nav">
+                <label for="pt1a" class="pt-btn">1</label>
+                <label for="pt1b" class="pt-btn">2</label>
+              </div>
+            </div>
+          </div>
+          <pre><code>.page {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+input:checked ~ .pages .page-2 {
+  opacity: 1;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Slide Horizontal</h3>
+          <div class="demo-area">
+            <div class="page-transition-demo">
+              <input type="radio" name="pt2" id="pt2a" checked class="sr-only pt-radio">
+              <input type="radio" name="pt2" id="pt2b" class="sr-only pt-radio">
+              <div class="pt-pages">
+                <div class="pt-page pt-slide-h-1">
+                  <span>Slide Left</span>
+                </div>
+                <div class="pt-page pt-slide-h-2">
+                  <span>Slide Right</span>
+                </div>
+              </div>
+              <div class="pt-nav">
+                <label for="pt2a" class="pt-btn">1</label>
+                <label for="pt2b" class="pt-btn">2</label>
+              </div>
+            </div>
+          </div>
+          <pre><code>.page-1 { transform: translateX(0); }
+.page-2 { transform: translateX(100%); }
+input:checked ~ .pages .page-1 {
+  transform: translateX(-100%);
+}
+input:checked ~ .pages .page-2 {
+  transform: translateX(0);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Slide Vertical</h3>
+          <div class="demo-area">
+            <div class="page-transition-demo">
+              <input type="radio" name="pt3" id="pt3a" checked class="sr-only pt-radio">
+              <input type="radio" name="pt3" id="pt3b" class="sr-only pt-radio">
+              <div class="pt-pages">
+                <div class="pt-page pt-slide-v-1">
+                  <span>Slide Up</span>
+                </div>
+                <div class="pt-page pt-slide-v-2">
+                  <span>Slide Down</span>
+                </div>
+              </div>
+              <div class="pt-nav">
+                <label for="pt3a" class="pt-btn">1</label>
+                <label for="pt3b" class="pt-btn">2</label>
+              </div>
+            </div>
+          </div>
+          <pre><code>.page-1 { transform: translateY(0); }
+.page-2 { transform: translateY(100%); }
+input:checked ~ .pages .page-1 {
+  transform: translateY(-100%);
+}
+input:checked ~ .pages .page-2 {
+  transform: translateY(0);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Zoom Fade</h3>
+          <div class="demo-area">
+            <div class="page-transition-demo">
+              <input type="radio" name="pt4" id="pt4a" checked class="sr-only pt-radio">
+              <input type="radio" name="pt4" id="pt4b" class="sr-only pt-radio">
+              <div class="pt-pages">
+                <div class="pt-page pt-zoom-1">
+                  <span>Zoom Out</span>
+                </div>
+                <div class="pt-page pt-zoom-2">
+                  <span>Zoom In</span>
+                </div>
+              </div>
+              <div class="pt-nav">
+                <label for="pt4a" class="pt-btn">1</label>
+                <label for="pt4b" class="pt-btn">2</label>
+              </div>
+            </div>
+          </div>
+          <pre><code>.page-1 { transform: scale(1); opacity: 1; }
+.page-2 { transform: scale(0.8); opacity: 0; }
+input:checked ~ .pages .page-1 {
+  transform: scale(1.2); opacity: 0;
+}
+input:checked ~ .pages .page-2 {
+  transform: scale(1); opacity: 1;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Flip Transition</h3>
+          <div class="demo-area">
+            <div class="page-transition-demo">
+              <input type="radio" name="pt5" id="pt5a" checked class="sr-only pt-radio">
+              <input type="radio" name="pt5" id="pt5b" class="sr-only pt-radio">
+              <div class="pt-pages">
+                <div class="pt-page pt-flip-1">
+                  <span>Front</span>
+                </div>
+                <div class="pt-page pt-flip-2">
+                  <span>Back</span>
+                </div>
+              </div>
+              <div class="pt-nav">
+                <label for="pt5a" class="pt-btn">1</label>
+                <label for="pt5b" class="pt-btn">2</label>
+              </div>
+            </div>
+          </div>
+          <pre><code>.pages { perspective: 800px; }
+.page-1 { transform: rotateY(0); }
+.page-2 { transform: rotateY(180deg); }
+input:checked ~ .pages .page-1 {
+  transform: rotateY(-180deg);
+}
+input:checked ~ .pages .page-2 {
+  transform: rotateY(0);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Wipe Transition</h3>
+          <div class="demo-area">
+            <div class="page-transition-demo">
+              <input type="radio" name="pt6" id="pt6a" checked class="sr-only pt-radio">
+              <input type="radio" name="pt6" id="pt6b" class="sr-only pt-radio">
+              <div class="pt-pages">
+                <div class="pt-page pt-wipe-1">
+                  <span>Wipe Left</span>
+                </div>
+                <div class="pt-page pt-wipe-2">
+                  <span>Wipe Right</span>
+                </div>
+              </div>
+              <div class="pt-nav">
+                <label for="pt6a" class="pt-btn">1</label>
+                <label for="pt6b" class="pt-btn">2</label>
+              </div>
+            </div>
+          </div>
+          <pre><code>.page-2 {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 500ms ease;
+}
+input:checked ~ .pages .page-2 {
+  clip-path: inset(0 0 0 0);
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== TAB 12: Avançado ==================== -->
+    <section class="tab-panel panel-12" role="tabpanel" id="panel12" aria-labelledby="tab12">
+      <h2>Técnicas Avançadas</h2>
+      <p class="description">Math functions, container queries, <code>@property</code>, scroll-driven, e combines.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>@property (Houdini)</h3>
+          <div class="demo-area">
+            <div class="box houdini-gradient">Houdini</div>
+          </div>
+          <pre><code>@property --angle {
+  syntax: '&lt;angle&gt;';
+  initial-value: 0deg;
+  inherits: false;
+}
+.box {
+  background: conic-gradient(from var(--angle), #00d4ff, #7b2ff7);
+  animation: rotateGradient 3s linear infinite;
+}
+@keyframes rotateGradient {
+  to { --angle: 360deg; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>CSS Counter Animation</h3>
+          <div class="demo-area">
+            <div class="counter-wrapper">
+              <div class="counter-value"></div>
+            </div>
+          </div>
+          <pre><code>@property --num {
+  syntax: '&lt;integer&gt;';
+  initial-value: 0;
+  inherits: false;
+}
+.counter {
+  counter-reset: num var(--num);
+  animation: countUp 2s ease forwards;
+}
+.counter::after {
+  content: counter(num);
+}
+@keyframes countUp {
+  to { --num: 100; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Conic Rotation</h3>
+          <div class="demo-area">
+            <div class="conic-spinner">
+              <div class="conic-inner"></div>
+            </div>
+          </div>
+          <pre><code>.spinner {
+  background: conic-gradient(from 0deg, transparent, #00d4ff);
+  animation: spin 1s linear infinite;
+  border-radius: 50%;
+}
+.inner {
+  background: var(--surface);
+  border-radius: 50%;
+  margin: 4px;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Clip-path Morphing</h3>
+          <div class="demo-area">
+            <div class="box clip-morph">Morph</div>
+          </div>
+          <pre><code>.box {
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  animation: morph 4s ease-in-out infinite alternate;
+}
+@keyframes morph {
+  to { clip-path: polygon(50% 10%, 90% 50%, 50% 90%, 10% 50%; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Filter Animations</h3>
+          <div class="demo-area">
+            <div class="filter-demo">
+              <div class="box filter-blur">Blur</div>
+              <div class="box filter-brightness">Bright</div>
+              <div class="box filter-hue">Hue</div>
+            </div>
+          </div>
+          <pre><code>.blur      { filter: blur(0px); transition: filter 300ms; }
+.blur:hover { filter: blur(4px); }
+.bright    { filter: brightness(1); }
+.bright:hover { filter: brightness(1.5); }
+.hue       { filter: hue-rotate(0deg); }
+.hue:hover { filter: hue-rotate(180deg); }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>View Transitions API</h3>
+          <div class="demo-area">
+            <div class="vt-demo">
+              <div class="vt-element">View Transition</div>
+            </div>
+          </div>
+          <pre><code>/* Requer JS para trigger, mas CSS define: */
+::view-transition-old(hero) {
+  animation: fadeOut 300ms ease;
+}
+::view-transition-new(hero) {
+  animation: fadeIn 300ms ease;
+}
+/* Chrome 111+ */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Color Animation</h3>
+          <div class="demo-area">
+            <div class="box color-animate">Color</div>
+          </div>
+          <pre><code>.box {
+  background: #7b2ff7;
+  animation: colorCycle 4s ease infinite;
+}
+@keyframes colorCycle {
+  0%   { background: #7b2ff7; }
+  33%  { background: #00d4ff; }
+  66%  { background: #00ff88; }
+  100% { background: #7b2ff7; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Text Gradient Animation</h3>
+          <div class="demo-area">
+            <div class="text-gradient-anim">Animated Text</div>
+          </div>
+          <pre><code>.text {
+  background: linear-gradient(90deg, #00d4ff, #7b2ff7, #00ff88, #00d4ff);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientFlow 3s linear infinite;
+}
+@keyframes gradientFlow {
+  to { background-position: 300% center; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>SVG Stroke Animation</h3>
+          <div class="demo-area">
+            <svg class="svg-draw" viewBox="0 0 100 100">
+              <circle cx="50" cy="50" r="40" class="svg-circle"/>
+              <path d="M25,50 L45,70 L75,30" class="svg-check"/>
+            </svg>
+          </div>
+          <pre><code>.circle {
+  stroke-dasharray: 251;
+  stroke-dashoffset: 251;
+  animation: draw 1.5s ease forwards;
+}
+.check {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: draw 1s ease 1s forwards;
+}
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <main class="content">
+
+    <!-- ==================== TAB 13: Técnicas Modernas ==================== -->
+    <section class="tab-panel panel-13" role="tabpanel" id="panel13" aria-labelledby="tab13">
+      <h2>Técnicas CSS Modernas</h2>
+      <p class="description">10 técnicas avançadas implementadas como páginas standalone. Cada link abre um arquivo HTML próprio com demos funcionais.</p>
+
+      <div class="examples-grid tech-index-grid">
+
+        <a href="pages/13-starting-style.html" class="tech-link">
+          <span class="tech-num">13</span>
+          <span class="tech-name">@starting-style</span>
+          <span class="tech-desc">Anima display/visibility via transitions. Chrome 117+</span>
+        </a>
+
+        <a href="pages/14-offset-path.html" class="tech-link">
+          <span class="tech-num">14</span>
+          <span class="tech-name">offset-path</span>
+          <span class="tech-desc">Movimento ao longo de um path SVG. Chrome 55+</span>
+        </a>
+
+        <a href="pages/15-css-vars.html" class="tech-link">
+          <span class="tech-num">15</span>
+          <span class="tech-name">CSS Vars em @keyframes</span>
+          <span class="tech-desc">Usar var() dentro de keyframes, mudar dinamicamente</span>
+        </a>
+
+        <a href="pages/16-color-mix.html" class="tech-link">
+          <span class="tech-num">16</span>
+          <span class="tech-name">color-mix() animado</span>
+          <span class="tech-desc">Interpolação dinâmica de cores. Chrome 111+</span>
+        </a>
+
+        <a href="pages/17-has.html" class="tech-link">
+          <span class="tech-num">17</span>
+          <span class="tech-name">:has() animado</span>
+          <span class="tech-desc">Parent selectors com transitions. Chrome 105+</span>
+        </a>
+
+        <a href="pages/18-linear-easing.html" class="tech-link">
+          <span class="tech-num">18</span>
+          <span class="tech-name">linear() easing</span>
+          <span class="tech-desc">Nova função de easing, alternativa a cubic-bezier. Chrome 113+</span>
+        </a>
+
+        <a href="pages/19-container-queries.html" class="tech-link">
+          <span class="tech-num">19</span>
+          <span class="tech-name">Container Queries</span>
+          <span class="tech-desc">Animações responsivas ao container. Chrome 105+</span>
+        </a>
+
+        <a href="pages/20-scroll-snap.html" class="tech-link">
+          <span class="tech-num">20</span>
+          <span class="tech-name">scroll-snap + animations</span>
+          <span class="tech-desc">Carrossel sem JS com snap + animation-timeline</span>
+        </a>
+
+        <a href="pages/21-backdrop-filter.html" class="tech-link">
+          <span class="tech-num">21</span>
+          <span class="tech-name">backdrop-filter</span>
+          <span class="tech-desc">Glassmorphism e blur de fundo animado. Chrome 76+</span>
+        </a>
+
+        <a href="pages/22-css-art.html" class="tech-link">
+          <span class="tech-num">22</span>
+          <span class="tech-name">CSS Art Gallery</span>
+          <span class="tech-desc">Animações decorativas puras para inspiração</span>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>CSS Animation Study Lab — Apenas HTML + CSS, zero JavaScript</p>
+    <p class="footer-hint">Dica: inspecione o código para estudar cada animação</p>
+  </footer>
+
+</body>
+</html>

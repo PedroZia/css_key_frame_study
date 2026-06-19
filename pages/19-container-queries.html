@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Container Queries animadas — animações responsivas ao container com cqi/cqw. Chrome 105+.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>Aba 19: Container Queries — CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nav.css">
+  <style>
+    /* Resize handles */
+    .cq-resizable {
+      resize: horizontal;
+      overflow: auto;
+      min-width: 200px;
+      max-width: 100%;
+      width: 280px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      background: rgba(0, 0, 0, .2);
+    }
+
+    .cq-card {
+      container-type: inline-size;
+      container-name: card;
+      padding: 16px;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+    }
+
+    .cq-card-title {
+      font-size: 14cqi;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 8px;
+      transition: font-size 250ms ease, color 250ms ease;
+    }
+    .cq-card-text {
+      font-size: 3.5cqi;
+      color: var(--text-secondary);
+      line-height: 1.4;
+      transition: font-size 250ms ease;
+    }
+
+    @container card (min-width: 300px) {
+      .cq-card-title { font-size: 10cqi; color: var(--accent-3); }
+      .cq-card-text  { font-size: 2.8cqi; }
+    }
+    @container card (min-width: 450px) {
+      .cq-card-title { font-size: 8cqi;  color: var(--accent-2); }
+      .cq-card-text  { font-size: 2.2cqi; }
+    }
+
+    /* Animated card */
+    .cq-anim-card {
+      container-type: inline-size;
+      container-name: acard;
+      padding: 16px;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      text-align: center;
+    }
+    .cq-anim-dot {
+      width: 8cqi;
+      height: 8cqi;
+      max-width: 60px;
+      max-height: 60px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-radius: 50%;
+      margin: 0 auto 12px;
+      animation: cqSpin 2s linear infinite;
+    }
+    @keyframes cqSpin {
+      to { transform: rotate(360deg); }
+    }
+    @container acard (min-width: 250px) {
+      .cq-anim-dot {
+        background: linear-gradient(135deg, var(--accent-3), var(--accent));
+        animation-duration: 1s;
+      }
+    }
+
+    /* Hover effect on container */
+    .cq-hover-card {
+      container-type: inline-size;
+      container-name: hcard;
+      padding: 16px;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border);
+      text-align: center;
+      cursor: pointer;
+      transition: background 300ms ease;
+    }
+    .cq-hover-card:hover {
+      background: var(--bg-card);
+    }
+    .cq-hover-icon {
+      font-size: 10cqi;
+      transition: transform 400ms cubic-bezier(.17, .89, .32, 1.28);
+    }
+    .cq-hover-card:hover .cq-hover-icon {
+      transform: scale(1.2) rotate(15deg);
+    }
+
+    /* Style queries (CSS Containment Level 3) */
+    .cq-style-card {
+      container-type: inline-size;
+      --dark: 0;
+      background: color-mix(in oklab, var(--surface) calc(100% - var(--dark) * 30%), black);
+      padding: 16px;
+      border-radius: var(--radius-md);
+      transition: --dark 300ms ease;
+    }
+    .cq-style-card:hover { --dark: 1; }
+    @property --dark {
+      syntax: '<number>';
+      initial-value: 0;
+      inherits: true;
+    }
+    .cq-style-text {
+      color: color-mix(in oklab, var(--text-primary) calc(100% - var(--dark) * 50%), var(--accent));
+      font-size: 4cqi;
+    }
+    @container style(--dark: 1) {
+      .cq-style-text {
+        font-weight: 700;
+      }
+    }
+
+    /* Grid with container queries */
+    .cq-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+    }
+    .cq-grid-item {
+      container-type: inline-size;
+      padding: 12px;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      font-size: 3cqi;
+      text-align: center;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: background 250ms ease, color 250ms ease;
+    }
+    @container (min-width: 120px) {
+      .cq-grid-item { background: var(--bg-card); color: var(--accent); }
+    }
+    @container (min-width: 180px) {
+      .cq-grid-item { background: var(--accent-2); color: white; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="../index.html" class="page-nav-brand">⚡ CSS Animation Lab</a>
+    <a href="18-linear-easing.html" class="page-nav-link page-nav-prev">← 18: linear()</a>
+    <a href="20-scroll-snap.html" class="page-nav-link page-nav-next">20: scroll-snap →</a>
+  </nav>
+
+  <main class="content">
+
+    <section class="tab-panel" style="display: block;">
+      <h2>Aba 19: Container Queries animadas</h2>
+      <p class="description">Animações responsivas ao container, não à viewport. Use unidades <code>cqi</code>/<code>cqw</code> e <code>@container</code> queries. <strong>Chrome 105+</strong></p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Card Responsivo (arraste para redimensionar)</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="cq-resizable">
+              <div class="cq-card">
+                <div class="cq-card-title">Container Title</div>
+                <p class="cq-card-text">Texto que se adapta ao tamanho do container, não da viewport.</p>
+              </div>
+            </div>
+          </div>
+          <pre><code>.card {
+  container-type: inline-size;
+  container-name: card;
+}
+.title { font-size: 14cqi; }
+.text  { font-size: 3.5cqi; }
+
+@container card (min-width: 300px) {
+  .title { font-size: 10cqi; }
+  .text  { font-size: 2.8cqi; }
+}
+@container card (min-width: 450px) {
+  .title { font-size: 8cqi; }
+  .text  { font-size: 2.2cqi; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Dot Animado Responsivo</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="cq-resizable">
+              <div class="cq-anim-card">
+                <div class="cq-anim-dot"></div>
+                <div>Animação muda com tamanho</div>
+              </div>
+            </div>
+          </div>
+          <pre><code>.card {
+  container-type: inline-size;
+}
+.dot {
+  width: 8cqi;
+  height: 8cqi;
+  animation: spin 2s linear infinite;
+}
+@container (min-width: 250px) {
+  .dot {
+    animation-duration: 1s;
+    /* gira mais rápido em
+       containers maiores */
+  }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Hover + Container</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="cq-resizable">
+              <div class="cq-hover-card">
+                <div class="cq-hover-icon">⚡</div>
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Hover ou resize</p>
+              </div>
+            </div>
+          </div>
+          <pre><code>.card {
+  container-type: inline-size;
+}
+.icon {
+  font-size: 10cqi;
+  transition: transform 400ms;
+}
+.card:hover .icon {
+  transform: scale(1.2) rotate(15deg);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Style Queries (CSS Conditional Level 5)</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="cq-resizable">
+              <div class="cq-style-card">
+                <p class="cq-style-text">Hover muda a custom property --dark, e a style query reage</p>
+              </div>
+            </div>
+          </div>
+          <pre><code>@property --dark {
+  syntax: '&lt;number&gt;';
+  initial-value: 0;
+  inherits: true;
+}
+.card {
+  container-type: inline-size;
+  --dark: 0;
+  transition: --dark 300ms ease;
+}
+.card:hover { --dark: 1; }
+
+@container style(--dark: 1) {
+  /* reage à custom property */
+  .text { font-weight: 700; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Grid Responsivo</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="cq-resizable" style="width: 100%;">
+              <div class="cq-grid">
+                <div class="cq-grid-item">Item 1</div>
+                <div class="cq-grid-item">Item 2</div>
+                <div class="cq-grid-item">Item 3</div>
+                <div class="cq-grid-item">Item 4</div>
+              </div>
+            </div>
+          </div>
+          <pre><code>.item {
+  container-type: inline-size;
+  font-size: 3cqi;
+  transition: background 250ms, color 250ms;
+}
+@container (min-width: 120px) {
+  .item { background: var(--bg-card); color: var(--accent); }
+}
+@container (min-width: 180px) {
+  .item { background: var(--accent-2); color: white; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Unidades cqi/cqw/cqh</h3>
+          <p style="padding: 16px 20px; font-size: 0.85rem; color: var(--text-secondary);">Container query length units, relativas ao container pai.</p>
+          <pre><code>cqi  /* 1% do inline-size do container */
+cqb  /* 1% do block-size do container */
+cqw  /* 1% do width (deprecated alias) */
+cqh  /* 1% do height (deprecated alias) */
+
+.container {
+  container-type: inline-size;
+  /* ou 'size' para ambos */
+}
+.element {
+  font-size: 5cqi;
+  padding: 2cqi;
+  width: 80cqi;
+  height: 30cqb;
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Aba 19 de 22 — CSS Animation Study Lab</p>
+    <p class="footer-hint"><a href="../index.html" style="color: var(--accent);">← Voltar ao índice</a></p>
+  </footer>
+
+</body>
+</html>

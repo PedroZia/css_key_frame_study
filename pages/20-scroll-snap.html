@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="scroll-snap + animation-timeline — carrossel sem JavaScript.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>Aba 20: scroll-snap + animations — CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nav.css">
+  <style>
+    .ss-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      border-radius: var(--radius-md);
+      background: rgba(0, 0, 0, .2);
+      border: 1px solid var(--border);
+      scrollbar-width: thin;
+      scrollbar-color: var(--border) transparent;
+    }
+    .ss-slide {
+      flex: 0 0 100%;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--bg-primary);
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      animation: ssReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 50%;
+    }
+    @keyframes ssReveal {
+      from { opacity: 0.3; transform: scale(0.85); }
+      to   { opacity: 1;   transform: scale(1);    }
+    }
+    .ss-slide:nth-child(1) { background: linear-gradient(135deg, #ffffff, #c0c0c0); }
+    .ss-slide:nth-child(2) { background: linear-gradient(135deg, #c0c0c0, #808080); }
+    .ss-slide:nth-child(3) { background: linear-gradient(135deg, #808080, #ffffff); }
+    .ss-slide:nth-child(4) { background: linear-gradient(135deg, #404040, #c0c0c0); }
+    .ss-slide:nth-child(5) { background: linear-gradient(135deg, #ffffff, #808080); }
+
+    /* Dot pagination CSS-only */
+    .ss-dots {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .ss-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--border);
+      transition: background 250ms ease, transform 250ms ease;
+    }
+    .ss-dots-wrap {
+      position: relative;
+    }
+    .ss-dots-timeline {
+      position: relative;
+      height: 2px;
+      background: var(--border);
+      border-radius: 1px;
+      margin-top: 12px;
+      overflow: hidden;
+    }
+    .ss-dots-progress {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 20%;
+      background: linear-gradient(90deg, #ffffff, #c0c0c0);
+      animation: ssProgress linear;
+      animation-timeline: scroll();
+    }
+    @keyframes ssProgress {
+      to { width: 100%; }
+    }
+
+    /* Vertical scroll snap */
+    .ss-vertical {
+      height: 240px;
+      overflow-y: auto;
+      scroll-snap-type: y mandatory;
+      border-radius: var(--radius-md);
+      background: rgba(0, 0, 0, .2);
+      border: 1px solid var(--border);
+    }
+    .ss-vert-item {
+      height: 100%;
+      scroll-snap-align: start;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--bg-primary);
+      animation: ssVertFade linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 30%;
+    }
+    @keyframes ssVertFade {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+    .ss-vert-item:nth-child(odd) { background: linear-gradient(135deg, #c0c0c0, #ffffff); }
+    .ss-vert-item:nth-child(even) { background: linear-gradient(135deg, #ffffff, #808080); }
+
+    /* Coverflow-style */
+    .ss-cover {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      perspective: 800px;
+      padding: 40px 0;
+      border-radius: var(--radius-md);
+      background: rgba(0, 0, 0, .2);
+    }
+    .ss-cover-item {
+      flex: 0 0 50%;
+      height: 140px;
+      margin: 0 20px;
+      border-radius: var(--radius-md);
+      scroll-snap-align: center;
+      animation: ssCover linear both;
+      animation-timeline: view();
+      animation-range: cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--bg-primary);
+    }
+    @keyframes ssCover {
+      0%   { transform: translateX(-30%) rotateY(45deg) scale(0.7); opacity: 0.5; }
+      50%  { transform: translateX(0)    rotateY(0)    scale(1);   opacity: 1;   }
+      100% { transform: translateX(30%)  rotateY(-45deg) scale(0.7); opacity: 0.5; }
+    }
+    .ss-cover-item:nth-child(1) { background: linear-gradient(135deg, #ffffff, #c0c0c0); }
+    .ss-cover-item:nth-child(2) { background: linear-gradient(135deg, #c0c0c0, #808080); }
+    .ss-cover-item:nth-child(3) { background: linear-gradient(135deg, #808080, #ffffff); }
+    .ss-cover-item:nth-child(4) { background: linear-gradient(135deg, #404040, #c0c0c0); }
+
+    /* Snap-mandatory + smooth */
+    .ss-grid-snap {
+      display: grid;
+      grid-auto-flow: column;
+      grid-auto-columns: 80%;
+      gap: 12px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 4px;
+      border-radius: var(--radius-md);
+    }
+    .ss-grid-card {
+      scroll-snap-align: center;
+      padding: 20px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      animation: ssGridReveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 50%;
+    }
+    @keyframes ssGridReveal {
+      from { transform: scale(0.9); opacity: 0.5; }
+      to   { transform: scale(1);   opacity: 1;   }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="../index.html" class="page-nav-brand">⚡ CSS Animation Lab</a>
+    <a href="19-container-queries.html" class="page-nav-link page-nav-prev">← 19: Container Queries</a>
+    <a href="21-backdrop-filter.html" class="page-nav-link page-nav-next">21: backdrop-filter →</a>
+  </nav>
+
+  <main class="content">
+
+    <section class="tab-panel" style="display: block;">
+      <h2>Aba 20: scroll-snap + animation-timeline</h2>
+      <p class="description">Carrossel e snap scrolling sem JavaScript. Combine <code>scroll-snap-type</code> com <code>animation-timeline: view()</code> para criar efeitos visuais conforme o scroll.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Carrossel Horizontal</h3>
+          <p style="padding: 12px 20px 0; font-size: 0.82rem; color: var(--text-secondary);">← Arraste para navegar →</p>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch; padding: 12px;">
+            <div class="ss-carousel">
+              <div class="ss-slide">Slide 1</div>
+              <div class="ss-slide">Slide 2</div>
+              <div class="ss-slide">Slide 3</div>
+              <div class="ss-slide">Slide 4</div>
+              <div class="ss-slide">Slide 5</div>
+            </div>
+            <div class="ss-dots-timeline">
+              <div class="ss-dots-progress"></div>
+            </div>
+          </div>
+          <pre><code>.carousel {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+.slide {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  animation: reveal linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 50%;
+}
+@keyframes reveal {
+  from { opacity: 0.3; transform: scale(0.85); }
+  to   { opacity: 1;   transform: scale(1);    }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Vertical Snap</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="ss-vertical">
+              <div class="ss-vert-item">Section 1</div>
+              <div class="ss-vert-item">Section 2</div>
+              <div class="ss-vert-item">Section 3</div>
+              <div class="ss-vert-item">Section 4</div>
+            </div>
+          </div>
+          <pre><code>.vertical {
+  height: 240px;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+}
+.item {
+  height: 100%;
+  scroll-snap-align: start;
+  animation: fadeUp linear both;
+  animation-timeline: view();
+  animation-range: entry 0% cover 30%;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Coverflow 3D</h3>
+          <p style="padding: 12px 20px 0; font-size: 0.82rem; color: var(--text-secondary);">← Arraste →</p>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch; padding: 12px;">
+            <div class="ss-cover">
+              <div class="ss-cover-item">1</div>
+              <div class="ss-cover-item">2</div>
+              <div class="ss-cover-item">3</div>
+              <div class="ss-cover-item">4</div>
+            </div>
+          </div>
+          <pre><code>.cover {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  perspective: 800px;
+}
+.item {
+  flex: 0 0 50%;
+  scroll-snap-align: center;
+  animation: coverflow linear both;
+  animation-timeline: view();
+  animation-range: cover;
+}
+@keyframes coverflow {
+  0%   { transform: rotateY(45deg)  scale(0.7); }
+  50%  { transform: rotateY(0)     scale(1);   }
+  100% { transform: rotateY(-45deg) scale(0.7); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Grid com Snap</h3>
+          <p style="padding: 12px 20px 0; font-size: 0.82rem; color: var(--text-secondary);">← Arraste →</p>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch; padding: 12px;">
+            <div class="ss-grid-snap">
+              <div class="ss-grid-card">Card A</div>
+              <div class="ss-grid-card">Card B</div>
+              <div class="ss-grid-card">Card C</div>
+              <div class="ss-grid-card">Card D</div>
+            </div>
+          </div>
+          <pre><code>.grid {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 80%;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+.card {
+  scroll-snap-align: center;
+  animation: pop linear both;
+  animation-timeline: view();
+}
+@keyframes pop {
+  from { transform: scale(0.9); }
+  to   { transform: scale(1);   }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Scroll Progress Bar</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <p style="font-size: 0.82rem; color: var(--text-secondary);">Topo da página: 0% — Final: 100%</p>
+            <div style="height: 2px; background: var(--border); border-radius: 1px; overflow: hidden; margin-top: 8px;">
+              <div style="height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent-2)); width: 0; animation: ssTop linear; animation-timeline: scroll();"></div>
+            </div>
+          </div>
+          <pre><code>/* Progress bar no topo da página */
+.bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 3px;
+  width: 0;
+  background: var(--accent);
+  animation: progress linear;
+  animation-timeline: scroll();
+}
+@keyframes progress {
+  to { width: 100%; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Propriedades Úteis</h3>
+          <pre><code>/* Snap values */
+scroll-snap-type: x mandatory;
+scroll-snap-type: y proximity;
+scroll-snap-type: both mandatory;
+
+scroll-snap-align: start | center | end;
+scroll-snap-stop: normal | always;
+
+scroll-behavior: smooth | auto;
+
+scroll-margin: 20px;
+scroll-padding: 20px;
+
+/* Animation timeline */
+animation-timeline: scroll();
+animation-timeline: view();
+animation-range: entry 0% cover 100%;
+animation-range: contain 0% contain 100%; /* Chrome 116+ */</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Aba 20 de 22 — CSS Animation Study Lab</p>
+    <p class="footer-hint"><a href="../index.html" style="color: var(--accent);">← Voltar ao índice</a></p>
+  </footer>
+
+</body>
+</html>

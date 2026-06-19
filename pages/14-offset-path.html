@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="offset-path animations — movimento de elementos ao longo de um path SVG em CSS puro.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>Aba 14: offset-path — CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nav.css">
+  <style>
+    .op-stage {
+      position: relative;
+      width: 100%;
+      height: 220px;
+      background: rgba(0, 0, 0, .2);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .op-stage svg.op-path {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    .op-orbit {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #ffffff, #c0c0c0);
+      border-radius: 50%;
+      box-shadow: 0 0 20px rgba(255, 255, 255, .4);
+      offset-path: path('M 20,110 C 20,40 200,40 200,110 C 200,180 20,180 20,110 Z');
+      offset-rotate: 0deg;
+      animation: opMove 4s ease-in-out infinite;
+    }
+
+    @keyframes opMove {
+      0%   { offset-distance: 0%; }
+      50%  { offset-distance: 50%; }
+      100% { offset-distance: 100%; }
+    }
+
+    .op-arrow {
+      width: 40px;
+      height: 8px;
+      background: #ffffff;
+      border-radius: 4px;
+      offset-path: path('M 10,40 Q 150,10 290,40 T 290,160');
+      offset-rotate: auto;
+      animation: opFollow 5s linear infinite;
+    }
+
+    @keyframes opFollow {
+      from { offset-distance: 0%; }
+      to   { offset-distance: 100%; }
+    }
+
+    .op-star {
+      width: 20px;
+      height: 20px;
+      background: #808080;
+      clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+      offset-path: path('M 20,110 C 20,40 200,40 200,110 C 200,180 20,180 20,110 Z');
+      offset-rotate: auto;
+      animation: opStar 8s linear infinite;
+    }
+
+    @keyframes opStar {
+      from { offset-distance: 0%; offset-rotate: 0deg; }
+      to   { offset-distance: 100%; offset-rotate: 360deg; }
+    }
+
+    .op-square {
+      width: 24px;
+      height: 24px;
+      background: #c0c0c0;
+      offset-path: ray(45deg closest-side);
+      offset-distance: 0%;
+      offset-rotate: auto;
+      animation: opRay 3s ease-in-out infinite alternate;
+    }
+
+    @keyframes opRay {
+      from { offset-distance: 0%; }
+      to   { offset-distance: 100%; }
+    }
+
+    .op-circle-path {
+      width: 30px;
+      height: 30px;
+      background: linear-gradient(135deg, #ffffff, #808080);
+      border-radius: 50%;
+      offset-path: circle(80px at 50% 50%);
+      offset-rotate: auto;
+      animation: opCircle 5s linear infinite;
+    }
+
+    @keyframes opCircle {
+      from { offset-distance: 0%; }
+      to   { offset-distance: 100%; }
+    }
+
+    .op-snake {
+      width: 16px;
+      height: 16px;
+      background: #ffffff;
+      border-radius: 50%;
+      offset-path: path('M 10,100 C 50,10 150,10 150,100 S 250,190 290,100');
+      offset-rotate: 0deg;
+      animation: opSnake 4s ease-in-out infinite;
+    }
+
+    @keyframes opSnake {
+      0%, 100% { offset-distance: 0%; }
+      50%      { offset-distance: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="../index.html" class="page-nav-brand">⚡ CSS Animation Lab</a>
+    <a href="13-starting-style.html" class="page-nav-link page-nav-prev">← 13: starting-style</a>
+    <a href="15-css-vars.html" class="page-nav-link page-nav-next">15: CSS Vars →</a>
+  </nav>
+
+  <main class="content">
+
+    <section class="tab-panel" style="display: block;">
+      <h2>Aba 14: offset-path animations</h2>
+      <p class="description"><code>offset-path</code> define um caminho (path SVG, circle, ray) ao longo do qual o elemento se move. <code>offset-distance</code> controla a posição (0%–100%). <code>offset-rotate: auto</code> rotaciona o elemento para seguir a direção do path.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Path SVG — Curva fechada</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="op-stage">
+              <svg class="op-path" viewBox="0 0 220 220" preserveAspectRatio="none">
+                <path d="M 20,110 C 20,40 200,40 200,110 C 200,180 20,180 20,110 Z" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1" stroke-dasharray="3 3"/>
+              </svg>
+              <div class="op-orbit"></div>
+            </div>
+          </div>
+          <pre><code>.ball {
+  offset-path: path('M 20,110
+    C 20,40 200,40 200,110
+    C 200,180 20,180 20,110 Z');
+  animation: move 4s ease-in-out infinite;
+}
+@keyframes move {
+  0%   { offset-distance: 0%; }
+  50%  { offset-distance: 50%; }
+  100% { offset-distance: 100%; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>offset-rotate: auto</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="op-stage">
+              <svg class="op-path" viewBox="0 0 300 200" preserveAspectRatio="none">
+                <path d="M 10,40 Q 150,10 290,40 T 290,160" fill="none" stroke="rgba(192,192,192,.3)" stroke-width="1" stroke-dasharray="3 3"/>
+              </svg>
+              <div class="op-arrow"></div>
+            </div>
+          </div>
+          <pre><code>.arrow {
+  offset-path: path('M 10,40 Q 150,10 290,40
+                              T 290,160');
+  offset-rotate: auto;
+  /* elemento rotaciona seguindo
+     a tangente do path */
+  animation: follow 5s linear infinite;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Com rotação customizada</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="op-stage">
+              <svg class="op-path" viewBox="0 0 220 220" preserveAspectRatio="none">
+                <path d="M 20,110 C 20,40 200,40 200,110 C 200,180 20,180 20,110 Z" fill="none" stroke="rgba(128,128,128,.3)" stroke-width="1" stroke-dasharray="3 3"/>
+              </svg>
+              <div class="op-star"></div>
+            </div>
+          </div>
+          <pre><code>.star {
+  offset-path: path('...');
+  offset-rotate: auto;
+  animation: spinMove 8s linear infinite;
+}
+@keyframes spinMove {
+  from {
+    offset-distance: 0%;
+    offset-rotate: 0deg;
+  }
+  to {
+    offset-distance: 100%;
+    offset-rotate: 360deg;
+  }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>offset-path: ray()</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="op-stage" style="display: flex; align-items: center; justify-content: flex-start;">
+              <div class="op-square"></div>
+            </div>
+          </div>
+          <pre><code>.square {
+  offset-path: ray(45deg closest-side);
+  /* raio a 45° a partir do centro
+     do elemento, até a borda
+     mais próxima do container */
+  animation: rayMove 3s ease-in-out
+             infinite alternate;
+}
+@keyframes rayMove {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>offset-path: circle()</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="op-stage">
+              <div class="op-circle-path"></div>
+            </div>
+          </div>
+          <pre><code>.planet {
+  offset-path: circle(80px at 50% 50%);
+  /* círculo de raio 80px
+     centrado em 50% 50% */
+  offset-rotate: auto;
+  animation: orbit 5s linear infinite;
+}
+@keyframes orbit {
+  from { offset-distance: 0%; }
+  to   { offset-distance: 100%; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Path S — Snake motion</h3>
+          <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+            <div class="op-stage">
+              <svg class="op-path" viewBox="0 0 300 200" preserveAspectRatio="none">
+                <path d="M 10,100 C 50,10 150,10 150,100 S 250,190 290,100" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1" stroke-dasharray="3 3"/>
+              </svg>
+              <div class="op-snake"></div>
+            </div>
+          </div>
+          <pre><code>.snake {
+  offset-path: path('M 10,100
+    C 50,10 150,10 150,100
+    S 250,190 290,100');
+  animation: slither 4s ease-in-out
+             infinite;
+}
+@keyframes slither {
+  0%, 100% { offset-distance: 0%; }
+  50%      { offset-distance: 100%; }
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Aba 14 de 22 — CSS Animation Study Lab</p>
+    <p class="footer-hint"><a href="../index.html" style="color: var(--accent);">← Voltar ao índice</a></p>
+  </footer>
+
+</body>
+</html>

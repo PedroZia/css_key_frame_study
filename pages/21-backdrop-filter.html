@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="backdrop-filter e glassmorphism — efeitos de vidro fosco em CSS puro.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>Aba 21: backdrop-filter — CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nav.css">
+  <style>
+    /* Demo 1: Glassmorphism básico */
+    .bf-bg {
+      position: relative;
+      width: 100%;
+      height: 200px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #ffffff, #c0c0c0, #808080, #404040);
+      background-size: 300% 300%;
+      animation: bfShift 8s ease infinite;
+      overflow: hidden;
+    }
+    @keyframes bfShift {
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    .bf-glass {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      right: 12px;
+      padding: 16px;
+      background: rgba(255, 255, 255, .15);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, .2);
+      border-radius: var(--radius-md);
+      color: white;
+      font-weight: 600;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, .2);
+    }
+
+    /* Demo 2: Hover intensifica o blur */
+    .bf-card-wrap {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(45deg, #404040, #c0c0c0);
+      overflow: hidden;
+    }
+    .bf-circles {
+      position: absolute;
+      inset: 0;
+      filter: blur(0);
+    }
+    .bf-circles span {
+      position: absolute;
+      border-radius: 50%;
+      animation: bfCircle 6s ease-in-out infinite;
+    }
+    .bf-circles span:nth-child(1) {
+      width: 80px; height: 80px;
+      top: 10px; left: 10px;
+      background: #808080;
+      animation-delay: 0s;
+    }
+    .bf-circles span:nth-child(2) {
+      width: 100px; height: 100px;
+      bottom: 20px; right: 20px;
+      background: #ffaa00;
+      animation-delay: 2s;
+    }
+    .bf-circles span:nth-child(3) {
+      width: 60px; height: 60px;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: #ffffff;
+      animation-delay: 4s;
+    }
+    @keyframes bfCircle {
+      0%, 100% { transform: scale(1) translate(0, 0); }
+      50%      { transform: scale(1.4) translate(20px, -10px); }
+    }
+    .bf-card {
+      position: absolute;
+      inset: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, .1);
+      backdrop-filter: blur(8px) saturate(150%);
+      -webkit-backdrop-filter: blur(8px) saturate(150%);
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: backdrop-filter 400ms ease, background 400ms ease;
+      cursor: pointer;
+    }
+    .bf-card:hover {
+      backdrop-filter: blur(20px) saturate(200%);
+      -webkit-backdrop-filter: blur(20px) saturate(200%);
+      background: rgba(255, 255, 255, .2);
+    }
+
+    /* Demo 3: Múltiplos filtros */
+    .bf-multi-bg {
+      width: 100%;
+      height: 180px;
+      border-radius: var(--radius-md);
+      background: conic-gradient(from 0deg at 50% 50%, #ffffff, #c0c0c0, #808080, #ffffff);
+      animation: bfSpin 6s linear infinite;
+      position: relative;
+    }
+    @keyframes bfSpin {
+      to { background-position: 100% 0; }
+    }
+    .bf-multi {
+      position: absolute;
+      top: 16px; left: 16px; right: 16px; bottom: 16px;
+      background: rgba(0, 0, 0, .2);
+      backdrop-filter: blur(12px) hue-rotate(45deg) invert(15%);
+      -webkit-backdrop-filter: blur(12px) hue-rotate(45deg) invert(15%);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+    }
+
+    /* Demo 4: Animated blur intensity */
+    .bf-anim-bg {
+      width: 100%;
+      height: 100px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(90deg, #ffffff, #c0c0c0, #808080);
+      background-size: 200% 100%;
+      animation: bfAnimBg 4s ease infinite;
+      position: relative;
+    }
+    @keyframes bfAnimBg {
+      to { background-position: 200% 0; }
+    }
+    .bf-anim-glass {
+      position: absolute;
+      inset: 12px;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .2);
+      border-radius: var(--radius-md);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      animation: bfAnimBlur 3s ease-in-out infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+    }
+    @keyframes bfAnimBlur {
+      0%, 100% { backdrop-filter: blur(4px) brightness(1); }
+      50%      { backdrop-filter: blur(16px) brightness(1.3); }
+    }
+
+    /* Demo 5: Filtro + saturate + contrast */
+    .bf-combo-bg {
+      width: 100%;
+      height: 180px;
+      border-radius: var(--radius-md);
+      background: radial-gradient(circle at 30% 30%, #ffffff 0%, transparent 50%),
+                  radial-gradient(circle at 70% 70%, #404040 0%, transparent 50%),
+                  linear-gradient(135deg, #c0c0c0, #808080);
+      position: relative;
+    }
+    .bf-combo {
+      position: absolute;
+      top: 20px; left: 20px;
+      width: calc(100% - 40px);
+      height: calc(100% - 40px);
+      background: rgba(255, 255, 255, .15);
+      backdrop-filter: blur(14px) saturate(180%) contrast(120%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%) contrast(120%);
+      border: 1px solid rgba(255, 255, 255, .25);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="../index.html" class="page-nav-brand">⚡ CSS Animation Lab</a>
+    <a href="20-scroll-snap.html" class="page-nav-link page-nav-prev">← 20: scroll-snap</a>
+    <a href="22-css-art.html" class="page-nav-link page-nav-next">22: CSS Art →</a>
+  </nav>
+
+  <main class="content">
+
+    <section class="tab-panel" style="display: block;">
+      <h2>Aba 21: backdrop-filter & Glassmorphism</h2>
+      <p class="description"><code>backdrop-filter</code> aplica filtros (blur, saturate, etc) ao que está ATRÁS do elemento. Combinar com fundo translúcido cria o efeito "vidro fosco" (glassmorphism). <strong>Chrome 76+</strong></p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Glassmorphism Básico</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="bf-bg">
+              <div class="bf-glass">📱 Card com glass effect</div>
+            </div>
+          </div>
+          <pre><code>.glass {
+  background: rgba(255, 255, 255, .15);
+  backdrop-filter: blur(20px)
+                  saturate(180%);
+  -webkit-backdrop-filter: blur(20px)
+                          saturate(180%);
+  border: 1px solid
+          rgba(255, 255, 255, .2);
+  border-radius: 12px;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Hover intensifica o blur</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="bf-card-wrap">
+              <div class="bf-circles">
+                <span></span><span></span><span></span>
+              </div>
+              <div class="bf-card">Hover me</div>
+            </div>
+          </div>
+          <pre><code>.card {
+  backdrop-filter: blur(8px)
+                  saturate(150%);
+  transition: backdrop-filter 400ms;
+}
+.card:hover {
+  backdrop-filter: blur(20px)
+                  saturate(200%);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>backdrop-filter: hue-rotate</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="bf-multi-bg">
+              <div class="bf-multi">Hue Rotate</div>
+            </div>
+          </div>
+          <pre><code>/* Múltiplos filtros encadeados */
+backdrop-filter:
+  blur(12px)
+  hue-rotate(45deg)
+  invert(15%);
+
+/* Equivalente a filter mas
+   aplicado ao backdrop */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Blur Animado</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="bf-anim-bg">
+              <div class="bf-anim-glass">Animando blur</div>
+            </div>
+          </div>
+          <pre><code>@keyframes animBlur {
+  0%, 100% {
+    backdrop-filter: blur(4px)
+                    brightness(1);
+  }
+  50% {
+    backdrop-filter: blur(16px)
+                    brightness(1.3);
+  }
+}
+.glass {
+  animation: animBlur 3s ease
+             infinite;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Combo: blur + saturate + contrast</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="bf-combo-bg">
+              <div class="bf-combo">Triple Filter</div>
+            </div>
+          </div>
+          <pre><code>.glass {
+  background: rgba(255, 255, 255, .15);
+  backdrop-filter:
+    blur(14px)
+    saturate(180%)
+    contrast(120%);
+  -webkit-backdrop-filter:
+    blur(14px)
+    saturate(180%)
+    contrast(120%);
+  border: 1px solid
+          rgba(255, 255, 255, .25);
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Performance Tips</h3>
+          <p style="padding: 16px 20px; font-size: 0.85rem; color: var(--text-secondary);">backdrop-filter é custoso. Use com moderação.</p>
+          <pre><code>/* ✅ Bom: blur pequeno + área limitada */
+.card {
+  backdrop-filter: blur(8px);
+}
+
+/* ❌ Evite: blur enorme em área grande */
+.fullscreen {
+  backdrop-filter: blur(40px);
+}
+
+/* Use will-change para avisar o browser */
+.glass {
+  will-change: backdrop-filter;
+}
+
+/* Limite blur a ~20px em mobile */</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Aba 21 de 22 — CSS Animation Study Lab</p>
+    <p class="footer-hint"><a href="../index.html" style="color: var(--accent);">← Voltar ao índice</a></p>
+  </footer>
+
+</body>
+</html>

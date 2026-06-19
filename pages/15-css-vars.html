@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CSS Variables (custom properties) dentro de @keyframes — animações dinâmicas em CSS puro.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>Aba 15: CSS Variables em @keyframes — CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nav.css">
+  <style>
+    /* Demo 1: Muda rotation com hover */
+    .cv-rotate {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-radius: var(--radius-md);
+      --rot: 0deg;
+      transform: rotate(var(--rot));
+      transition: --rot 800ms ease;
+    }
+    .cv-rotate-wrap:hover .cv-rotate {
+      --rot: 360deg;
+    }
+
+    @property --rot {
+      syntax: '<angle>';
+      initial-value: 0deg;
+      inherits: false;
+    }
+
+    /* Demo 2: Escala dinâmica */
+    .cv-scale {
+      width: 80px;
+      height: 80px;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--accent);
+      --s: 1;
+      transform: scale(var(--s));
+      transition: --s 400ms cubic-bezier(.17, .89, .32, 1.28);
+    }
+    .cv-scale:hover { --s: 1.3; }
+
+    @property --s {
+      syntax: '<number>';
+      initial-value: 1;
+      inherits: false;
+    }
+
+    /* Demo 3: Loop com var */
+    .cv-loop {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-radius: 50%;
+      --y: 0px;
+      transform: translateY(var(--y));
+      animation: cvBounce 2s ease-in-out infinite;
+    }
+    @keyframes cvBounce {
+      0%, 100% { --y: 0px; }
+      50%      { --y: -30px; }
+    }
+    @property --y {
+      syntax: '<length>';
+      initial-value: 0px;
+      inherits: false;
+    }
+
+    /* Demo 4: Múltiplas vars em um elemento */
+    .cv-multi {
+      width: 80px;
+      height: 80px;
+      background: var(--surface);
+      border-radius: var(--radius-md);
+      --r: 0deg;
+      --x: 0px;
+      --hue: 0;
+      transform: translateX(var(--x)) rotate(var(--r));
+      background-color: hsl(var(--hue), 80%, 60%);
+      transition: --r 500ms ease, --x 500ms ease, --hue 800ms ease;
+    }
+    .cv-multi:hover {
+      --r: 45deg;
+      --x: 30px;
+      --hue: 180;
+    }
+    @property --r   { syntax: '<angle>';  initial-value: 0deg; inherits: false; }
+    @property --x   { syntax: '<length>'; initial-value: 0px;  inherits: false; }
+    @property --hue { syntax: '<integer>'; initial-value: 0;   inherits: false; }
+
+    /* Demo 5: Gradient animado via vars */
+    .cv-gradient {
+      width: 100%;
+      height: 80px;
+      border-radius: var(--radius-md);
+      --c1: #ffffff;
+      --c2: #c0c0c0;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      transition: --c1 600ms ease, --c2 600ms ease;
+    }
+    .cv-gradient:hover {
+      --c1: #808080;
+      --c2: #404040;
+    }
+    @property --c1 { syntax: '<color>'; initial-value: #ffffff; inherits: false; }
+    @property --c2 { syntax: '<color>'; initial-value: #c0c0c0; inherits: false; }
+
+    /* Demo 6: stroke-dasharray animado */
+    .cv-stroke {
+      width: 80px;
+      height: 80px;
+      --len: 251;
+      stroke-dasharray: var(--len);
+      stroke-dashoffset: var(--len);
+      animation: cvDraw 2s ease forwards infinite alternate;
+    }
+    @keyframes cvDraw {
+      from { --len: 251; }
+      to   { --len: 0;   }
+    }
+    @property --len { syntax: '<number>'; initial-value: 251; inherits: false; }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="../index.html" class="page-nav-brand">⚡ CSS Animation Lab</a>
+    <a href="14-offset-path.html" class="page-nav-link page-nav-prev">← 14: offset-path</a>
+    <a href="16-color-mix.html" class="page-nav-link page-nav-next">16: color-mix →</a>
+  </nav>
+
+  <main class="content">
+
+    <section class="tab-panel" style="display: block;">
+      <h2>Aba 15: CSS Variables em @keyframes</h2>
+      <p class="description">Usar <code>var()</code> dentro de <code>@keyframes</code> e <code>transition</code>. Requer <code>@property</code> para que o browser saiba interpolar. Sem <code>@property</code>, a mudança é instantânea (não anima).</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Rotação animada com hover</h3>
+          <div class="demo-area">
+            <div class="cv-rotate-wrap">
+              <div class="cv-rotate"></div>
+            </div>
+          </div>
+          <p style="padding: 12px 20px; font-size: 0.82rem; color: var(--text-secondary);">Passe o mouse no card</p>
+          <pre><code>@property --rot {
+  syntax: '&lt;angle&gt;';
+  initial-value: 0deg;
+  inherits: false;
+}
+.box {
+  --rot: 0deg;
+  transform: rotate(var(--rot));
+  transition: --rot 800ms ease;
+}
+.card:hover .box {
+  --rot: 360deg;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Escala com spring</h3>
+          <div class="demo-area">
+            <div class="cv-scale">1.3x</div>
+          </div>
+          <p style="padding: 12px 20px; font-size: 0.82rem; color: var(--text-secondary);">Hover: scale 1 → 1.3 com cubic-bezier spring</p>
+          <pre><code>@property --s {
+  syntax: '&lt;number&gt;';
+  initial-value: 1;
+  inherits: false;
+}
+.box {
+  --s: 1;
+  transform: scale(var(--s));
+  transition: --s 400ms
+              cubic-bezier(.17,.89,.32,1.28);
+}
+.box:hover { --s: 1.3; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Bounce com @keyframes + var</h3>
+          <div class="demo-area">
+            <div class="cv-loop"></div>
+          </div>
+          <pre><code>@property --y {
+  syntax: '&lt;length&gt;';
+  initial-value: 0px;
+  inherits: false;
+}
+.ball {
+  --y: 0px;
+  transform: translateY(var(--y));
+  animation: bounce 2s infinite;
+}
+@keyframes bounce {
+  0%, 100% { --y: 0px;   }
+  50%      { --y: -30px; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Múltiplas vars combinadas</h3>
+          <div class="demo-area">
+            <div class="cv-multi">CSS</div>
+          </div>
+          <p style="padding: 12px 20px; font-size: 0.82rem; color: var(--text-secondary);">Hover: rotaciona, move, muda matiz</p>
+          <pre><code>@property --r   { syntax: '&lt;angle&gt;';  initial-value: 0deg; inherits: false; }
+@property --x   { syntax: '&lt;length&gt;'; initial-value: 0px;  inherits: false; }
+@property --hue { syntax: '&lt;integer&gt;'; initial-value: 0;   inherits: false; }
+
+.box {
+  --r: 0deg; --x: 0px; --hue: 0;
+  transform: translateX(var(--x)) rotate(var(--r));
+  background: hsl(var(--hue), 80%, 60%);
+  transition: --r 500ms, --x 500ms, --hue 800ms;
+}
+.box:hover {
+  --r: 45deg; --x: 30px; --hue: 180;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Gradient animado via vars</h3>
+          <div class="demo-area" style="flex-direction: column;">
+            <div class="cv-gradient"></div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 8px;">Hover: gradient muda de cor suavemente</p>
+          </div>
+          <pre><code>@property --c1 { syntax: '&lt;color&gt;'; initial-value: #ffffff; inherits: false; }
+@property --c2 { syntax: '&lt;color&gt;'; initial-value: #c0c0c0; inherits: false; }
+
+.box {
+  background: linear-gradient(135deg, var(--c1), var(--c2));
+  transition: --c1 600ms, --c2 600ms;
+}
+.box:hover {
+  --c1: #808080;
+  --c2: #404040;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>stroke-dashoffset animado</h3>
+          <div class="demo-area">
+            <svg viewBox="0 0 100 100" width="80" height="80">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="var(--accent)" stroke-width="4" class="cv-stroke"/>
+            </svg>
+          </div>
+          <pre><code>@property --len {
+  syntax: '&lt;number&gt;';
+  initial-value: 251;
+  inherits: false;
+}
+circle {
+  stroke-dasharray: var(--len);
+  stroke-dashoffset: var(--len);
+  animation: draw 2s ease infinite alternate;
+}
+@keyframes draw {
+  from { --len: 251; }
+  to   { --len: 0;   }
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Aba 15 de 22 — CSS Animation Study Lab</p>
+    <p class="footer-hint"><a href="../index.html" style="color: var(--accent);">← Voltar ao índice</a></p>
+  </footer>
+
+</body>
+</html>

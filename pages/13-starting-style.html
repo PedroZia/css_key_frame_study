@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="@starting-style e transition-behavior: allow-discrete — anima display/visibility em CSS puro. Chrome 117+.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>Aba 13: @starting-style — CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nav.css">
+  <style>
+    /* Demo: Modal with @starting-style */
+    .ss-trigger {
+      padding: 12px 28px;
+      background: linear-gradient(135deg, #ffffff, #c0c0c0);
+      color: var(--bg-primary);
+      border: none;
+      border-radius: var(--radius-md);
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: transform 200ms ease, box-shadow 200ms ease;
+    }
+    .ss-trigger:hover { transform: scale(1.04); box-shadow: 0 4px 20px rgba(255, 255, 255, .2); }
+    .ss-trigger:active { transform: scale(0.98); }
+
+    .ss-modal {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, .5);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 300ms ease, overlay 300ms ease allow-discrete, display 300ms ease allow-discrete;
+    }
+
+    .ss-modal-content {
+      background: var(--bg-card);
+      border: 1px solid var(--accent);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      max-width: 400px;
+      transform: scale(0.9) translateY(20px);
+      opacity: 0;
+      transition: transform 400ms cubic-bezier(.17, .89, .32, 1.28), opacity 300ms ease, display 300ms ease allow-discrete;
+    }
+
+    /* @starting-style: estado INICIAL antes da transição */
+    @starting-style {
+      .ss-modal { opacity: 0; }
+      .ss-modal-content { transform: scale(0.7) translateY(40px); opacity: 0; }
+    }
+
+    /* Quando o checkbox está checked, mostra o modal */
+    #ss-toggle:checked ~ .ss-modal {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #ss-toggle:checked ~ .ss-modal .ss-modal-content {
+      transform: scale(1) translateY(0);
+      opacity: 1;
+    }
+
+    /* Popover entry */
+    .ss-popover-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .ss-popover {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      white-space: nowrap;
+      font-size: 0.85rem;
+      opacity: 0;
+      transform: translateY(-8px);
+      pointer-events: none;
+      transition: opacity 250ms ease, transform 250ms ease, display 250ms ease allow-discrete;
+    }
+    .ss-popover-trigger:hover + .ss-popover,
+    .ss-popover-trigger:focus-visible + .ss-popover {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    @starting-style {
+      .ss-popover { opacity: 0; transform: translateY(-8px); }
+    }
+
+    /* Accordion */
+    .ss-accordion details {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      transition: border-color 200ms ease;
+    }
+    .ss-accordion details[open] {
+      border-color: var(--accent);
+    }
+    .ss-accordion summary {
+      padding: 14px 18px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.9rem;
+      background: var(--surface);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ss-accordion summary::after {
+      content: '+';
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      transition: transform 250ms ease, content 250ms ease;
+    }
+    .ss-accordion details[open] summary::after {
+      transform: rotate(45deg);
+    }
+    .ss-accordion .ss-acc-content {
+      padding: 0 18px;
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 350ms ease, opacity 250ms ease, padding 350ms ease, display 350ms ease allow-discrete;
+    }
+    .ss-accordion details[open] .ss-acc-content {
+      max-height: 200px;
+      opacity: 1;
+      padding: 14px 18px;
+    }
+    @starting-style {
+      .ss-accordion .ss-acc-content { opacity: 0; max-height: 0; }
+    }
+
+    /* Toggle visibility demo */
+    .ss-fade-blocks {
+      display: flex;
+      gap: 12px;
+    }
+    .ss-fade-block {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--bg-primary);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+    .ss-fade-block:nth-child(2) { display: none; opacity: 0; transition: opacity 300ms ease, display 300ms ease allow-discrete; }
+    .ss-fade-block:nth-child(3) { display: none; opacity: 0; transition: opacity 300ms ease, display 300ms ease allow-discrete; }
+    #ss-fade-toggle:checked ~ .ss-fade-blocks .ss-fade-block:nth-child(2) { display: flex; opacity: 1; }
+    #ss-fade-toggle:checked ~ .ss-fade-blocks .ss-fade-block:nth-child(3) { display: flex; opacity: 1; }
+    @starting-style {
+      .ss-fade-block:nth-child(2) { opacity: 0; }
+      .ss-fade-block:nth-child(3) { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="../index.html" class="page-nav-brand">⚡ CSS Animation Lab</a>
+    <a href="22-css-art.html" class="page-nav-link page-nav-prev">← 22: Art</a>
+    <a href="14-offset-path.html" class="page-nav-link page-nav-next">14: offset-path →</a>
+  </nav>
+
+  <main class="content">
+
+    <section class="tab-panel" style="display: block;">
+      <h2>Aba 13: @starting-style + transition-behavior</h2>
+      <p class="description">Animar propriedades "discretas" como <code>display</code>, <code>visibility</code> e <code>overlay</code> em transitions. Requer <code>transition-behavior: allow-discrete</code> e bloco <code>@starting-style</code>. <strong>Chrome 117+</strong></p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Modal com @starting-style</h3>
+          <div class="demo-area">
+            <input type="checkbox" id="ss-toggle" class="sr-only">
+            <label for="ss-toggle" class="ss-trigger">Abrir Modal</label>
+            <label for="ss-toggle" class="ss-modal">
+              <div class="ss-modal-content" onclick="event.stopPropagation()">
+                <h3 style="margin-bottom: 12px; color: var(--accent);">Modal Animado</h3>
+                <p style="font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 16px;">Este modal entra com scale + fade via @starting-style. Sem JS, apenas checkbox + CSS.</p>
+                <label for="ss-toggle" class="ss-trigger" style="font-size: 0.8rem; padding: 8px 16px;">Fechar</label>
+              </div>
+            </label>
+          </div>
+          <pre><code>.modal {
+  opacity: 0;
+  display: none;
+  transition: opacity 300ms ease,
+              display 300ms allow-discrete;
+}
+@starting-style {
+  .modal { opacity: 0; }
+}
+input:checked ~ .modal {
+  opacity: 1;
+  display: flex;
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Tooltip Hover</h3>
+          <div class="demo-area">
+            <div class="ss-popover-wrap">
+              <button class="ss-trigger" style="font-size: 0.85rem; padding: 8px 16px;">Passe o mouse</button>
+              <div class="ss-popover">↗ Tooltip que aparece suavemente</div>
+            </div>
+          </div>
+          <pre><code>.tooltip {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 250ms ease,
+              transform 250ms ease;
+}
+.trigger:hover + .tooltip {
+  opacity: 1;
+  transform: translateY(0);
+}
+@starting-style {
+  .tooltip { opacity: 0; transform: translateY(-8px); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Accordion Animado</h3>
+          <div class="demo-area ss-accordion">
+            <details style="width: 100%;">
+              <summary>Clique para expandir</summary>
+              <div class="ss-acc-content">
+                <p style="font-size: 0.85rem; color: var(--text-secondary);">Conteúdo com max-height animado. O @starting-style define o estado inicial da entrada.</p>
+              </div>
+            </details>
+          </div>
+          <pre><code>details .content {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 350ms ease,
+              opacity 250ms ease;
+}
+details[open] .content {
+  max-height: 200px;
+  opacity: 1;
+}
+@starting-style {
+  details .content { opacity: 0; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Fade-in Sequencial</h3>
+          <div class="demo-area">
+            <input type="checkbox" id="ss-fade-toggle" class="sr-only">
+            <label for="ss-fade-toggle" class="ss-trigger" style="font-size: 0.8rem; padding: 8px 16px;">Toggle</label>
+            <div class="ss-fade-blocks">
+              <div class="ss-fade-block">1</div>
+              <div class="ss-fade-block">2</div>
+              <div class="ss-fade-block">3</div>
+            </div>
+          </div>
+          <pre><code>.block {
+  display: none;
+  opacity: 0;
+  transition: opacity 300ms ease,
+              display 300ms allow-discrete;
+}
+input:checked ~ .blocks .block {
+  display: flex;
+  opacity: 1;
+}
+@starting-style {
+  .block { opacity: 0; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Por que @starting-style?</h3>
+          <p style="padding: 16px 20px; font-size: 0.85rem; color: var(--text-secondary);">Sem <code>@starting-style</code>, transições em <code>display</code> não animam a entrada do elemento — apenas a saída. O bloco <code>@starting-style</code> define o estado "de onde vem" a transição.</p>
+          <pre><code>/* SEM @starting-style: */
+.card { display: none; transition: opacity 300ms; }
+.card.show { display: block; opacity: 1; }
+/* Problema: a opacity transition
+   não roda na entrada (display: none → block)
+   porque o browser não tem o valor inicial */
+
+/* COM @starting-style: */
+@starting-style {
+  .card.show { opacity: 0; }
+}
+/* Agora o browser sabe: o opacity
+   começa em 0 e vai até 1 */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Browser Support</h3>
+          <p style="padding: 16px 20px; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;">Recurso moderno. Verifique sempre o <a href="https://caniuse.com/mdn-css_at-rules_starting-style" style="color: var(--accent);">caniuse.com</a> antes de usar em produção.</p>
+          <pre><code>Chrome 117+    ✅
+Edge 117+      ✅
+Firefox 129+   ✅
+Safari 17.5+   ✅
+
+@supports (transition-behavior: allow-discrete) {
+  /* aplicar @starting-style */
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Aba 13 de 22 — CSS Animation Study Lab</p>
+    <p class="footer-hint"><a href="../index.html" style="color: var(--accent);">← Voltar ao índice</a></p>
+  </footer>
+
+</body>
+</html>

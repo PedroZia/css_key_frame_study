@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="color-mix() animado — interpolação dinâmica de cores em CSS puro. Chrome 111+.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>Aba 16: color-mix() animado — CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nav.css">
+  <style>
+    /* Demo 1: Background com color-mix animado */
+    .cm-bg {
+      width: 100%;
+      height: 80px;
+      border-radius: var(--radius-md);
+      --from: #ffffff;
+      --to: #c0c0c0;
+      --amount: 0%;
+      background: color-mix(in srgb, var(--from) var(--amount), var(--to));
+      transition: --amount 600ms ease;
+    }
+    .cm-bg:hover { --amount: 100%; }
+    @property --amount {
+      syntax: '<percentage>';
+      initial-value: 0%;
+      inherits: false;
+    }
+
+    /* Demo 2: Texto colorido com mix */
+    .cm-text {
+      font-size: 1.3rem;
+      font-weight: 700;
+      --c1: #ffffff;
+      --c2: #404040;
+      --p: 0%;
+      color: color-mix(in oklab, var(--c1) var(--p), var(--c2));
+      transition: --p 500ms ease;
+    }
+    .cm-text:hover { --p: 100%; }
+    @property --p { syntax: '<percentage>'; initial-value: 0%; inherits: false; }
+
+    /* Demo 3: Border com mix */
+    .cm-border {
+      width: 100%;
+      height: 80px;
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      --c1: #ffffff;
+      --c2: #c0c0c0;
+      --amt: 0%;
+      border: 3px solid color-mix(in oklch, var(--c1) var(--amt), var(--c2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: var(--text-primary);
+      transition: --amt 500ms ease;
+    }
+    .cm-border:hover { --amt: 100%; }
+    @property --amt { syntax: '<percentage>'; initial-value: 0%; inherits: false; }
+
+    /* Demo 4: Box-shadow com mix */
+    .cm-shadow {
+      width: 100%;
+      height: 80px;
+      border-radius: var(--radius-md);
+      background: var(--surface);
+      --shadow: #ffffff;
+      --op: 0%;
+      box-shadow: 0 0 30px color-mix(in srgb, var(--shadow) var(--op), transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: var(--text-primary);
+      transition: --op 400ms ease;
+    }
+    .cm-shadow:hover { --op: 100%; }
+    @property --op { syntax: '<percentage>'; initial-value: 0%; inherits: false; }
+
+    /* Demo 5: Color spaces comparison */
+    .cm-spaces {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      width: 100%;
+    }
+    .cm-space {
+      height: 32px;
+      border-radius: var(--radius-md);
+      --p: 0%;
+      transition: --p 500ms ease;
+    }
+    .cm-spaces:hover .cm-space { --p: 100%; }
+    .cm-space:nth-child(1) { background: color-mix(in srgb, #ffffff var(--p), #c0c0c0); }
+    .cm-space:nth-child(2) { background: color-mix(in oklab, #ffffff var(--p), #c0c0c0); }
+    .cm-space:nth-child(3) { background: color-mix(in oklch, #ffffff var(--p), #c0c0c0); }
+    .cm-space:nth-child(4) { background: color-mix(in hsl, #ffffff var(--p), #c0c0c0); }
+    .cm-space:nth-child(5) { background: color-mix(in lch, #ffffff var(--p), #c0c0c0); }
+    @property --p { syntax: '<percentage>'; initial-value: 0%; inherits: false; }
+
+    /* Demo 6: Mix de 3 cores */
+    .cm-triple {
+      width: 100%;
+      height: 80px;
+      border-radius: var(--radius-md);
+      --a: 33%;
+      --b: 33%;
+      --c: 34%;
+      background: color-mix(in srgb,
+        color-mix(in oklab, #ffffff var(--a), #c0c0c0) var(--b),
+        #808080 var(--c));
+      transition: --a 500ms ease, --b 500ms ease, --c 500ms ease;
+    }
+    .cm-triple:hover { --a: 10%; --b: 80%; --c: 10%; }
+    @property --a { syntax: '<percentage>'; initial-value: 33%; inherits: false; }
+    @property --b { syntax: '<percentage>'; initial-value: 33%; inherits: false; }
+    @property --c { syntax: '<percentage>'; initial-value: 34%; inherits: false; }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="../index.html" class="page-nav-brand">⚡ CSS Animation Lab</a>
+    <a href="15-css-vars.html" class="page-nav-link page-nav-prev">← 15: CSS Vars</a>
+    <a href="17-has.html" class="page-nav-link page-nav-next">17: :has() →</a>
+  </nav>
+
+  <main class="content">
+
+    <section class="tab-panel" style="display: block;">
+      <h2>Aba 16: color-mix() animado</h2>
+      <p class="description"><code>color-mix(in &lt;color-space&gt;, cor1 &lt;%&gt;, cor2)</code> interpola entre duas cores em diferentes espaços de cor. Combinado com <code>@property</code>, permite transições suaves entre cores. <strong>Chrome 111+</strong></p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Background animado</h3>
+          <div class="demo-area" style="flex-direction: column;">
+            <div class="cm-bg"></div>
+            <p style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 8px;">Hover: 0% → 100% do mix</p>
+          </div>
+          <pre><code>@property --amount {
+  syntax: '&lt;percentage&gt;';
+  initial-value: 0%;
+  inherits: false;
+}
+.box {
+  --from: #ffffff;
+  --to: #c0c0c0;
+  --amount: 0%;
+  background: color-mix(in srgb,
+              var(--from) var(--amount),
+              var(--to));
+  transition: --amount 600ms ease;
+}
+.box:hover { --amount: 100%; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Texto com cor interpolada</h3>
+          <div class="demo-area">
+            <div class="cm-text">CSS Color Mix</div>
+          </div>
+          <p style="padding: 12px 20px; font-size: 0.82rem; color: var(--text-secondary);">Hover: ciano → rosa em oklab</p>
+          <pre><code>.text {
+  --c1: #ffffff;
+  --c2: #404040;
+  --p: 0%;
+  color: color-mix(in oklab,
+            var(--c1) var(--p),
+            var(--c2));
+  transition: --p 500ms ease;
+}
+.text:hover { --p: 100%; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Border com mix em oklch</h3>
+          <div class="demo-area">
+            <div class="cm-border">Border Animada</div>
+          </div>
+          <pre><code>.box {
+  --c1: #ffffff;
+  --c2: #c0c0c0;
+  --amt: 0%;
+  border: 3px solid color-mix(
+            in oklch,
+            var(--c1) var(--amt),
+            var(--c2));
+  transition: --amt 500ms ease;
+}
+.box:hover { --amt: 100%; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Box-shadow com cor dinâmica</h3>
+          <div class="demo-area">
+            <div class="cm-shadow">Shadow Glow</div>
+          </div>
+          <pre><code>.box {
+  --shadow: #ffffff;
+  --op: 0%;
+  box-shadow: 0 0 30px color-mix(
+                in srgb,
+                var(--shadow) var(--op),
+                transparent);
+  transition: --op 400ms ease;
+}
+.box:hover { --op: 100%; }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Color Spaces Comparison</h3>
+          <div class="demo-area">
+            <div class="cm-spaces">
+              <div class="cm-space" data-label="srgb"></div>
+              <div class="cm-space" data-label="oklab"></div>
+              <div class="cm-space" data-label="oklch"></div>
+              <div class="cm-space" data-label="hsl"></div>
+              <div class="cm-space" data-label="lch"></div>
+            </div>
+          </div>
+          <pre><code>/* Diferentes espaços produzem
+   interpolações visuais diferentes */
+color-mix(in srgb,  #ffffff, #c0c0c0);
+color-mix(in oklab, #ffffff, #c0c0c0);
+color-mix(in oklch, #ffffff, #c0c0c0);
+color-mix(in hsl,   #ffffff, #c0c0c0);
+color-mix(in lch,   #ffffff, #c0c0c0);
+
+/* oklab/oklch = perceptualmente uniforme
+   (melhor para gradientes suaves) */</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Mix aninhado (3 cores)</h3>
+          <div class="demo-area">
+            <div class="cm-triple"></div>
+          </div>
+          <p style="padding: 12px 20px; font-size: 0.82rem; color: var(--text-secondary);">Hover: redistribui as proporções</p>
+          <pre><code>@property --a { syntax: '&lt;percentage&gt;'; initial-value: 33%; inherits: false; }
+@property --b { syntax: '&lt;percentage&gt;'; initial-value: 33%; inherits: false; }
+@property --c { syntax: '&lt;percentage&gt;'; initial-value: 34%; inherits: false; }
+
+.box {
+  background: color-mix(in srgb,
+    color-mix(in oklab,
+      #ffffff var(--a),
+      #c0c0c0) var(--b),
+    #808080 var(--c));
+  transition: --a 500ms, --b 500ms, --c 500ms;
+}
+.box:hover { --a: 10%; --b: 80%; --c: 10%; }</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Aba 16 de 22 — CSS Animation Study Lab</p>
+    <p class="footer-hint"><a href="../index.html" style="color: var(--accent);">← Voltar ao índice</a></p>
+  </footer>
+
+</body>
+</html>

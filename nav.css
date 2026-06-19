@@ -1,0 +1,63 @@
+/* ============================================
+   Page Navigation — CSS-only
+   ============================================ */
+.page-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.page-nav-brand {
+  font-weight: 700;
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 0.95rem;
+  background: linear-gradient(135deg, #ffffff, #c0c0c0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  white-space: nowrap;
+  margin-right: auto;
+}
+
+.page-nav-brand:hover {
+  opacity: 0.8;
+}
+
+.page-nav-link {
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-secondary);
+  border: 1px solid var(--border);
+  transition: color 200ms ease, background 200ms ease, border-color 200ms ease;
+  white-space: nowrap;
+}
+
+.page-nav-link:hover {
+  color: var(--accent);
+  background: rgba(255, 255, 255, .08);
+  border-color: rgba(255, 255, 255, .15);
+}
+
+.page-nav-link[aria-current="page"] {
+  color: var(--accent);
+  background: rgba(255, 255, 255, .1);
+  border-color: rgba(255, 255, 255, .2);
+}
+
+.page-nav-prev,
+.page-nav-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}

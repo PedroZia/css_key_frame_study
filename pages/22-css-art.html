@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CSS Art Gallery — animações decorativas puras para inspiração.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <title>Aba 22: CSS Art Gallery — CSS Animation Study Lab</title>
+  <link rel="stylesheet" href="../style.css">
+  <link rel="stylesheet" href="../nav.css">
+  <style>
+    /* Common stage */
+    .art-stage {
+      width: 100%;
+      height: 180px;
+      background: rgba(0, 0, 0, .2);
+      border-radius: var(--radius-md);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Art 1: Pulse rings */
+    .art-pulse {
+      width: 60px;
+      height: 60px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: relative;
+    }
+    .art-pulse::before, .art-pulse::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px solid var(--accent);
+      animation: artPulse 2s ease-out infinite;
+    }
+    .art-pulse::after { animation-delay: 1s; }
+    @keyframes artPulse {
+      0%   { transform: scale(1);   opacity: 1; }
+      100% { transform: scale(2.5); opacity: 0; }
+    }
+
+    /* Art 2: Floating shapes */
+    .art-float span {
+      position: absolute;
+      border-radius: 50%;
+      animation: artFloat 6s ease-in-out infinite;
+    }
+    .art-float span:nth-child(1) {
+      width: 40px; height: 40px;
+      top: 20%; left: 20%;
+      background: var(--accent);
+      animation-delay: 0s;
+    }
+    .art-float span:nth-child(2) {
+      width: 60px; height: 60px;
+      top: 50%; left: 60%;
+      background: var(--accent-2);
+      animation-delay: 1s;
+    }
+    .art-float span:nth-child(3) {
+      width: 30px; height: 30px;
+      top: 70%; left: 30%;
+      background: var(--accent-3);
+      animation-delay: 2s;
+    }
+    .art-float span:nth-child(4) {
+      width: 50px; height: 50px;
+      top: 30%; left: 80%;
+      background: var(--danger);
+      animation-delay: 3s;
+    }
+    @keyframes artFloat {
+      0%, 100% { transform: translate(0, 0) rotate(0); }
+      25%      { transform: translate(20px, -30px) rotate(90deg); }
+      50%      { transform: translate(-15px, -50px) rotate(180deg); }
+      75%      { transform: translate(-30px, -20px) rotate(270deg); }
+    }
+
+    /* Art 3: Wave */
+    .art-wave {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      padding: 12px;
+    }
+    .art-wave span {
+      flex: 1;
+      background: linear-gradient(to top, var(--accent), var(--accent-2));
+      border-radius: 3px 3px 0 0;
+      animation: artWave 1.5s ease-in-out infinite;
+    }
+    .art-wave span:nth-child(1) { animation-delay: 0.0s; }
+    .art-wave span:nth-child(2) { animation-delay: 0.1s; }
+    .art-wave span:nth-child(3) { animation-delay: 0.2s; }
+    .art-wave span:nth-child(4) { animation-delay: 0.3s; }
+    .art-wave span:nth-child(5) { animation-delay: 0.4s; }
+    .art-wave span:nth-child(6) { animation-delay: 0.5s; }
+    .art-wave span:nth-child(7) { animation-delay: 0.6s; }
+    .art-wave span:nth-child(8) { animation-delay: 0.7s; }
+    .art-wave span:nth-child(9) { animation-delay: 0.8s; }
+    .art-wave span:nth-child(10) { animation-delay: 0.9s; }
+    @keyframes artWave {
+      0%, 100% { height: 20%; }
+      50%      { height: 90%; }
+    }
+
+    /* Art 4: Morphing blob */
+    .art-blob {
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      animation: artBlob 8s ease-in-out infinite;
+      filter: blur(0);
+    }
+    @keyframes artBlob {
+      0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+      25%      { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+      50%      { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; }
+      75%      { border-radius: 60% 40% 60% 30% / 60% 40% 30% 70%; }
+    }
+
+    /* Art 5: Orbital */
+    .art-orbital-wrap {
+      position: relative;
+      width: 140px;
+      height: 140px;
+    }
+    .art-orbital-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 30px;
+      height: 30px;
+      background: var(--accent);
+      border-radius: 50%;
+      box-shadow: 0 0 20px var(--accent);
+    }
+    .art-orbital-ring {
+      position: absolute;
+      inset: 0;
+      border: 1px dashed rgba(255, 255, 255, .2);
+      border-radius: 50%;
+    }
+    .art-orbital-ring:nth-child(2) { inset: 20px; }
+    .art-orbital-ring:nth-child(3) { inset: -20px; }
+    .art-orbital-planet {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 12px;
+      height: 12px;
+      background: var(--accent-2);
+      border-radius: 50%;
+      margin: -6px 0 0 -6px;
+      animation: artOrbit 4s linear infinite;
+      transform-origin: 0 0;
+    }
+    .art-orbital-planet:nth-child(4) {
+      background: var(--accent-3);
+      animation: artOrbit2 6s linear infinite;
+    }
+    .art-orbital-planet:nth-child(5) {
+      background: var(--danger);
+      animation: artOrbit3 8s linear infinite;
+    }
+    @keyframes artOrbit   { from { transform: rotate(0)    translateX(70px); } to { transform: rotate(360deg) translateX(70px); } }
+    @keyframes artOrbit2  { from { transform: rotate(120deg)  translateX(50px); } to { transform: rotate(480deg) translateX(50px); } }
+    @keyframes artOrbit3  { from { transform: rotate(240deg)  translateX(90px); } to { transform: rotate(600deg) translateX(90px); } }
+
+    /* Art 6: DNA helix */
+    .art-dna {
+      position: relative;
+      width: 100px;
+      height: 140px;
+    }
+    .art-dna-dot {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--accent);
+      border-radius: 50%;
+      left: 50%;
+      margin-left: -4px;
+      animation: artDna 2s ease-in-out infinite;
+    }
+    .art-dna-dot:nth-child(odd) { background: var(--accent-2); }
+    .art-dna-dot:nth-child(1)  { top: 0%;   animation-delay: 0s; }
+    .art-dna-dot:nth-child(2)  { top: 10%;  animation-delay: 0.1s; }
+    .art-dna-dot:nth-child(3)  { top: 20%;  animation-delay: 0.2s; }
+    .art-dna-dot:nth-child(4)  { top: 30%;  animation-delay: 0.3s; }
+    .art-dna-dot:nth-child(5)  { top: 40%;  animation-delay: 0.4s; }
+    .art-dna-dot:nth-child(6)  { top: 50%;  animation-delay: 0.5s; }
+    .art-dna-dot:nth-child(7)  { top: 60%;  animation-delay: 0.6s; }
+    .art-dna-dot:nth-child(8)  { top: 70%;  animation-delay: 0.7s; }
+    .art-dna-dot:nth-child(9)  { top: 80%;  animation-delay: 0.8s; }
+    .art-dna-dot:nth-child(10) { top: 90%;  animation-delay: 0.9s; }
+    @keyframes artDna {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(30px); }
+    }
+    .art-dna-dot:nth-child(even) {
+      animation-name: artDna2;
+    }
+    @keyframes artDna2 {
+      0%, 100% { transform: translateX(0); }
+      50%      { transform: translateX(-30px); }
+    }
+
+    /* Art 7: Spinning squares */
+    .art-squares {
+      position: relative;
+      width: 100px;
+      height: 100px;
+    }
+    .art-sq {
+      position: absolute;
+      inset: 0;
+      border: 2px solid var(--accent);
+      border-radius: 8px;
+      animation: artSpin 4s linear infinite;
+    }
+    .art-sq:nth-child(1) { border-color: var(--accent);   animation-direction: normal; }
+    .art-sq:nth-child(2) { border-color: var(--accent-2); animation-direction: reverse; animation-duration: 3s; }
+    .art-sq:nth-child(3) { border-color: var(--accent-3); animation-direction: normal; animation-duration: 5s; }
+    @keyframes artSpin {
+      to { transform: rotate(360deg) scale(1.2); }
+    }
+
+    /* Art 8: Aurora */
+    .art-aurora {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    .art-aurora::before, .art-aurora::after {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: conic-gradient(from 0deg, transparent, var(--accent), var(--accent-2), transparent 30%);
+      animation: artAurora 4s linear infinite;
+      filter: blur(40px);
+      opacity: 0.6;
+    }
+    .art-aurora::after {
+      animation-duration: 6s;
+      animation-direction: reverse;
+      background: conic-gradient(from 180deg, transparent, var(--accent-3), var(--accent-2), transparent 30%);
+    }
+    @keyframes artAurora {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="page-nav">
+    <a href="../index.html" class="page-nav-brand">⚡ CSS Animation Lab</a>
+    <a href="21-backdrop-filter.html" class="page-nav-link page-nav-prev">← 21: backdrop-filter</a>
+    <a href="13-starting-style.html" class="page-nav-link page-nav-next">13: starting-style →</a>
+  </nav>
+
+  <main class="content">
+
+    <section class="tab-panel" style="display: block;">
+      <h2>Aba 22: CSS Art Gallery</h2>
+      <p class="description">Animações decorativas puras para inspiração. Sem propósito funcional — apenas para ver as possibilidades do CSS.</p>
+
+      <div class="examples-grid">
+
+        <div class="example-card">
+          <h3>Pulse Rings</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="art-stage">
+              <div class="art-pulse"></div>
+            </div>
+          </div>
+          <pre><code>.pulse {
+  width: 60px; height: 60px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: relative;
+}
+.pulse::before, .pulse::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--accent);
+  animation: pulse 2s ease-out infinite;
+}
+.pulse::after { animation-delay: 1s; }
+@keyframes pulse {
+  0%   { transform: scale(1);   opacity: 1; }
+  100% { transform: scale(2.5); opacity: 0; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Floating Shapes</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="art-stage">
+              <div class="art-float">
+                <span></span><span></span><span></span><span></span>
+              </div>
+            </div>
+          </div>
+          <pre><code>@keyframes float {
+  0%, 100% { transform: translate(0,0)    rotate(0); }
+  25%      { transform: translate(20px,-30px) rotate(90deg); }
+  50%      { transform: translate(-15px,-50px) rotate(180deg); }
+  75%      { transform: translate(-30px,-20px) rotate(270deg); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Wave Bars</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="art-stage">
+              <div class="art-wave">
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span><span></span><span></span>
+                <span></span><span></span>
+              </div>
+            </div>
+          </div>
+          <pre><code>.bar { animation: wave 1.5s infinite; }
+.bar:nth-child(n) {
+  animation-delay: calc(n * 0.1s);
+}
+@keyframes wave {
+  0%, 100% { height: 20%; }
+  50%      { height: 90%; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Morphing Blob</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="art-stage">
+              <div class="art-blob"></div>
+            </div>
+          </div>
+          <pre><code>@keyframes blob {
+  0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+  25%      { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+  50%      { border-radius: 50% 60% 30% 60% / 30% 60% 70% 40%; }
+  75%      { border-radius: 60% 40% 60% 30% / 60% 40% 30% 70%; }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Orbital System</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="art-stage">
+              <div class="art-orbital-wrap">
+                <div class="art-orbital-ring"></div>
+                <div class="art-orbital-ring"></div>
+                <div class="art-orbital-ring"></div>
+                <div class="art-orbital-planet"></div>
+                <div class="art-orbital-planet"></div>
+                <div class="art-orbital-planet"></div>
+                <div class="art-orbital-center"></div>
+              </div>
+            </div>
+          </div>
+          <pre><code>.planet {
+  animation: orbit 4s linear infinite;
+  transform-origin: 0 0;
+}
+@keyframes orbit {
+  from { transform: rotate(0) translateX(70px); }
+  to   { transform: rotate(360deg) translateX(70px); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>DNA Helix</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="art-stage">
+              <div class="art-dna">
+                <div class="art-dna-dot"></div>
+                <div class="art-dna-dot"></div>
+                <div class="art-dna-dot"></div>
+                <div class="art-dna-dot"></div>
+                <div class="art-dna-dot"></div>
+                <div class="art-dna-dot"></div>
+                <div class="art-dna-dot"></div>
+                <div class="art-dna-dot"></div>
+                <div class="art-dna-dot"></div>
+                <div class="art-dna-dot"></div>
+              </div>
+            </div>
+          </div>
+          <pre><code>.dot { animation: dna 2s infinite; }
+.dot:nth-child(odd)  { animation-name: dna1; }
+.dot:nth-child(even) { animation-name: dna2; }
+.dot:nth-child(n) { animation-delay: n * 0.1s; }
+@keyframes dna1 { 50% { transform: translateX(30px); } }
+@keyframes dna2 { 50% { transform: translateX(-30px); } }</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Spinning Squares</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="art-stage">
+              <div class="art-squares">
+                <div class="art-sq"></div>
+                <div class="art-sq"></div>
+                <div class="art-sq"></div>
+              </div>
+            </div>
+          </div>
+          <pre><code>.sq { animation: spin 4s linear infinite; }
+.sq:nth-child(1) { animation-duration: 4s; }
+.sq:nth-child(2) {
+  animation-duration: 3s;
+  animation-direction: reverse;
+}
+.sq:nth-child(3) { animation-duration: 5s; }
+@keyframes spin {
+  to { transform: rotate(360deg) scale(1.2); }
+}</code></pre>
+        </div>
+
+        <div class="example-card">
+          <h3>Aurora</h3>
+          <div class="demo-area" style="padding: 0;">
+            <div class="art-stage">
+              <div class="art-aurora"></div>
+            </div>
+          </div>
+          <pre><code>.aurora::before {
+  content: '';
+  position: absolute;
+  width: 200%; height: 200%;
+  top: -50%; left: -50%;
+  background: conic-gradient(from 0deg,
+    transparent, var(--accent),
+    var(--accent-2), transparent 30%);
+  animation: spin 4s linear infinite;
+  filter: blur(40px);
+}</code></pre>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <p>Aba 22 de 22 — CSS Animation Study Lab</p>
+    <p class="footer-hint"><a href="../index.html" style="color: var(--accent);">← Voltar ao índice</a></p>
+  </footer>
+
+</body>
+</html>
